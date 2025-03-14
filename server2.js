@@ -629,7 +629,7 @@ app.post('/create_print_view', (req, res) => {
     });
 	
 	// Commande pour ouvrir le document avec l'application Microsoft Word
-	const command = `start winword "02 - Sophie DORIN Création Factures WEB.docx"`;
+	const command = `start winword "02 - Sophie DORIN Creation Factures WEB.docx"`;
 
 	// Exécution de la commande
 	exec(command, (err, stdout, stderr) => {
