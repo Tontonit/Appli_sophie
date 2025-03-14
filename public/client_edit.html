@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SDSA - CE</title>
+	<style>
+		body {
+			background-color: #ccffcc; /* Vert clair */
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Calibri;
+		}
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+		}
+        .logo {
+            margin-top: 10px;
+			margin-left: 10px; /* Aligne le logo à gauche */
+        }
+		.container-wrapper {
+            display: flex;
+            flex-direction: row; /* Placer les conteneurs côte à côte */
+            /*justify-content: center;*/
+            width: 100%;
+            text-align: center;
+            background-color: #45a049;
+            font-size: 14px;
+			border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 10px;
+        }
+		.container-adresse, .container-rec {
+            display: flex;
+            flex-direction: row; /* Placer les conteneurs côte à côte */
+            width: 100%;
+            font-size: 14px;
+        }
+		.container {
+			display: flex;
+            flex-direction: column;
+			width: 90%;
+			text-align: left;
+			background-color: #ffffff;
+			padding: 5px;
+			/*border-radius: 20px;*/
+			/*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+			margin: 10px;
+		}
+		.siren-siret, .edit {
+            display: flex;
+            /*gap: 20px;  /* Ajout d'un espace entre les éléments */
+			align-items: flex-start;
+		}
+
+		.dates-ps {
+            display: flex;
+            gap: 20px;  /* Ajout d'un espace entre les éléments */
+			align-items: flex-start;
+		}
+		.title {
+			font-size: 24px;
+			font-weight: bold;
+			color: black;
+			margin-bottom: 20px;
+			position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+		}
+		.input-field {
+			width: 80%;
+			padding: 10px;
+			margin: 5px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.date-field {
+			width: 100px;
+			padding: 10px;
+			margin: 5px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.button {
+			width: 200px;
+			height: 50px;
+			margin: 10px;
+			font-size: 16px;
+			line-height: 1%; /* Hauteur de ligne égale à la hauteur du bouton pour centrer le texte verticalement */
+			text-align: center; /* Centrage du texte horizontalement */
+			color: white;
+			background-color: #4CAF50;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		.button:hover {
+			background-color: #45a049;
+		}
+		.exit_button {
+            margin-top: 10px;
+			margin-right: 10px; /* Aligne le bouton à droite */
+			top: 20px;
+			right: 20px;
+			color: white;
+			background-color: #4CAF50; /* Vert */
+			padding: 15px 16px;
+			text-align: center;
+			font-size: 14px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+			text-decoration: none; /* Supprime la ligne soulignée */
+			display: inline-block;  /* Rend le lien en bloc */			
+		}
+		.toolbar {
+            margin-bottom: 10px;
+        }
+        .toolbar button {
+            margin-right: 5px;
+        }		
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<img src="logo_complet_SD_2.jpg" alt="Logo" width="100" height="100">
+		</div>
+		<div class="title">
+			<h2>Clients</h2>
+		</div>
+		<div class="exit_button">
+			<a href="Actions.html"><button id="myExit" type="button">Revenir aux actions</button></a>
+		</div>
+    </div>
+	<div class="container-wrapper">
+		<div class="container">
+			<div class="siren-siret">
+				<div class="container">
+					<b>N° SIRET</b>
+					<input type="text" id="siret" class="input-field" placeholder="N°SIRET" >
+				</div>
+				<div class="container">
+					<b>N° SIREN</b>
+					<input type="text" id="siren" class="input-field" placeholder="N°SIREN" >
+				</div>
+			</div>
+			<div class="edit">
+				<div class="container">
+					<b>Client</b>
+					<div id="dropdown-container_clients" class="input-field"></div>
+				</div>
+			</div>
+			<div class="container">
+				<b>Forme sociale</b>
+				<input type="text" id="forme_sociale" class="input-field" placeholder="Forme sociale" >
+				<br />
+				<b>N° TVA UE</b>
+				<input type="text" id="num_tva" class="input-field" placeholder="N° TVA" >
+				<br />
+				<b>Contact client</b>
+				<input type="text" id="contact" class="input-field" placeholder="Saisissez un nom de contact" >
+				<br />
+				<b>Titre</b>
+				<input type="text" id="titre" class="input-field" placeholder="Titre" >
+			</div>
+		</div>
+		<div class="container">
+			<form id="form" method="POST" action="/client_update">
+				<div class="container-adresse">
+					<div class="container">
+						<b>Adresse client</b>
+						<input type="text" id="c_adr1" class="input-field" placeholder="Adresse 1">
+						<input type="text" id="c_adr2" class="input-field" placeholder="Adresse 2">
+						<input type="text" id="c_adr3" class="input-field" placeholder="Adresse 3">
+						<input type="text" id="c_cp" class="input-field" style="width: 20%;" placeholder="CP">
+						<input type="text" id="c_ville" class="input-field" placeholder="Ville">
+					</div>
+					<div class="container">
+						<b>Adresse facturation</b>
+						<input type="text" id="f_adr1" class="input-field" placeholder="Adresse 1">
+						<input type="text" id="f_adr2" class="input-field" placeholder="Adresse 2">
+						<input type="text" id="f_adr3" class="input-field" placeholder="Adresse 3">
+						<input type="text" id="f_cp" class="input-field" style="width: 20%;" placeholder="CP">
+						<input type="text" id="f_ville" class="input-field" placeholder="Ville">
+					</div>
+				</div>
+				<div class="container-adresse">
+					<div class="container">
+						<b>Pays client</b>
+						<input type="text" id="pays" class="input-field" placeholder="Pays" >
+					</div>
+				</div>
+				<div class="container-adresse">
+					<div class="container">
+						<b>Membre UE</b>
+						<div>
+							<input type="radio" id="ue_oui" name="contact" value="false" />
+							<label for="ue_oui">Oui</label>
+							<input type="radio" id="ue_non" name="contact" value="false" />
+							<label for="ue_non">Non</label>
+							<input type="radio" id="ue_na" name="contact" value="false" />
+							<label for="ue_na">N/A</label>
+						</div>
+					</div>
+					<div class="container">
+						<span id="message_html"></span>
+						<button id="update" type="submit" class="button">Enregistrer</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script>
+		var selected_cli=null;
+		
+		// Requête AJAX pour récupérer les options des listes déroulantes
+        fetch('/getClients')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('dropdown-container_clients').innerHTML = data;
+            })
+            .catch(error => console.error('Error fetching options:', error));
+			
+		document.getElementById('dropdown-container_clients').addEventListener('change', () => {
+			event.preventDefault();
+			selected_cli = document.querySelector('#dropdown-container_clients select').value;
+			console.log("selected_cli=",selected_cli);
+            fetch('/client_editer', {
+                method: 'POST',
+				headers: {
+                    'Content-Type': 'application/json'
+                },
+				body: JSON.stringify({
+                    id_client: selected_cli,
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+				const {id_client,siret,siren,client,forme_sociale,tva_ue,contact,titre,c_adr1,c_adr2,c_adr3,c_cp,c_ville,f_adr1,f_adr2,f_adr3,f_cp,f_ville,pays,ue_oui,ue_non,ue_na}=data;
+				
+				document.getElementById('siret').value=siret;
+				document.getElementById('siren').value=siren;
+				document.getElementById('forme_sociale').value=forme_sociale;
+				document.getElementById('num_tva').value=tva_ue;
+				document.getElementById('contact').value=contact;
+				document.getElementById('titre').value=titre;
+				document.getElementById('c_adr1').value=c_adr1;
+				document.getElementById('c_adr2').value=c_adr2;
+				document.getElementById('c_adr3').value=c_adr3;
+				document.getElementById('c_cp').value=c_cp;
+				document.getElementById('c_ville').value=c_ville;
+				document.getElementById('f_adr1').value=f_adr1;
+				document.getElementById('f_adr2').value=f_adr2;
+				document.getElementById('f_adr3').value=f_adr3;
+				document.getElementById('f_cp').value=f_cp;
+				document.getElementById('f_ville').value=f_ville;
+				document.getElementById('pays').value=pays;
+				document.getElementById('ue_oui').value=ue_oui;
+				document.getElementById('ue_non').value=ue_non;
+				document.getElementById('ue_na').value=ue_na;
+				
+				if (document.getElementById('ue_oui').value==='true') {
+					document.getElementById('ue_oui').checked=true;
+				} else if (document.getElementById('ue_non').value==='true') {
+					document.getElementById('ue_non').checked=true;
+				} else if (document.getElementById('ue_na').value==='true') {
+					document.getElementById('ue_na').checked=true;
+				}
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+		document.getElementById('pays').addEventListener('blur', function() {
+            if (document.getElementById('pays').value==='France') {
+				document.getElementById('ue_na').value='true';
+				document.getElementById('ue_na').checked=true;
+			}
+        });
+
+		document.getElementById('siret').addEventListener('blur', function() {
+            let siret = this.value.replace(/\s+/g, ''); // Supprime les espaces
+			this.value = siret;
+ 			document.getElementById('siren').value = siret.substring(0, 9); // Copie les 9 premiers caractères
+        });
+		document.getElementById('update').addEventListener('click', () => {
+			event.preventDefault();
+			const siret=document.getElementById('siret').value;
+			const siren=document.getElementById('siren').value;
+			const client=document.querySelector('#dropdown-container_clients select').value;
+			const forme_sociale=document.getElementById('forme_sociale').value;
+			const num_tva=document.getElementById('num_tva').value;
+			const contact=document.getElementById('contact').value;
+			const titre=document.getElementById('titre').value;
+			const c_adr1=document.getElementById('c_adr1').value;
+			const c_adr2=document.getElementById('c_adr2').value;
+			const c_adr3=document.getElementById('c_adr3').value;
+			const c_cp=document.getElementById('c_cp').value;
+			const c_ville=document.getElementById('c_ville').value;
+			const f_adr1=document.getElementById('f_adr1').value;
+			const f_adr2=document.getElementById('f_adr2').value;
+			const f_adr3=document.getElementById('f_adr3').value;
+			const f_cp=document.getElementById('f_cp').value;
+			const f_ville=document.getElementById('f_ville').value;
+			const pays=document.getElementById('pays').value;
+			const ue_oui=document.getElementById('ue_oui').value;
+			const ue_non=document.getElementById('ue_non').value;
+			const ue_na=document.getElementById('ue_na').value;
+			
+            fetch('/client_update', {
+                method: 'POST',
+				headers: {
+                    'Content-Type': 'application/json'
+                },
+				body: JSON.stringify({
+					id_client: selected_cli,
+					siret: siret,
+					siren: siren,
+					client: client,
+					forme_sociale: forme_sociale,
+					num_tva: num_tva,
+					contact: contact,
+					titre: titre,
+					c_adr1: c_adr1,
+					c_adr2: c_adr2,
+					c_adr3: c_adr3,
+					c_cp: c_cp,
+					c_ville: c_ville,
+					f_adr1: f_adr1,
+					f_adr2: f_adr2,
+					f_adr3: f_adr3,
+					f_cp: f_cp,
+					f_ville: f_ville,
+					pays: pays,
+					ue_oui: ue_oui,
+					ue_non: ue_non,
+					ue_na: ue_na
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+		
+   </script>
+	<script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('console_message', (message) => {
+            const messageContainer = document.getElementById('message_html');
+			messageContainer.innerHTML = message;
+        });
+    </script>
+
+</body>
+</html>
+
+

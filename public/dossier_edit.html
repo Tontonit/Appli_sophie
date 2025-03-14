@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SDSA - DE</title>
+	<style>
+		body {
+			background-color: #ccffcc; /* Vert clair */
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Calibri;
+		}
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+		}
+        .logo {
+            margin-top: 10px;
+			margin-left: 10px; /* Aligne le logo à gauche */
+        }
+		.container-wrapper {
+            display: flex;
+            flex-direction: row; /* Placer les conteneurs côte à côte */
+            /*justify-content: center;*/
+            width: 100%;
+            text-align: center;
+            background-color: #45a049;
+            font-size: 14px;
+			border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 10px;
+        }
+		.container {
+			display: flex;
+            flex-direction: column;
+            /*justify-content: center;*/
+			width: 45%;
+			text-align: center;
+			background-color: #ffffff;
+			padding: 10px;
+			border-radius: 20px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 10px;
+		}
+		.dates-ps {
+            display: flex;
+            gap: 20px;  /* Ajout d'un espace entre les éléments */
+			align-items: flex-start;
+		}
+		.title {
+			font-size: 24px;
+			font-weight: bold;
+			color: black;
+			margin-bottom: 20px;
+			position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+		}
+		.input-field {
+			width: 80%;
+			padding: 10px;
+			margin: 5px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.date-field {
+			width: 100px;
+			padding: 10px;
+			margin: 5px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.button {
+			width: 200px;
+			height: 50px;
+			margin: 10px;
+			font-size: 16px;
+			line-height: 1%; /* Hauteur de ligne égale à la hauteur du bouton pour centrer le texte verticalement */
+			text-align: center; /* Centrage du texte horizontalement */
+			padding: 20px 10px;
+			margin-left: 10%;
+			margin-top: 12%;
+			color: white;
+			background-color: #4CAF50;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		.button:hover {
+			background-color: #45a049;
+		}
+		.exit_button {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			color: white;
+			background-color: #4CAF50; /* Vert */
+			padding: 15px 16px;
+			text-align: center;
+			font-size: 14px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+			text-decoration: none; /* Supprime la ligne soulignée */
+			display: inline-block;  /* Rend le lien en bloc */			
+			margin: 5px auto;
+		}
+		.toolbar {
+            margin-bottom: 10px;
+        }
+        .toolbar button {
+            margin-right: 5px;
+        }
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<img src="logo_complet_SD_2.jpg" alt="Logo" width="100" height="100">
+		</div>
+		<div class="title">
+			<h2>Dossiers clients</h2>
+		</div>
+		<div class="exit_button">
+			<a href="Actions.html"><button id="myExit" type="button">Revenir aux actions</button></a>
+		</div>
+    </div>
+	<div class="container-wrapper">
+		<div class="container">
+			<br />
+			<b>Liste des dossiers en cours</b><br />
+			<div id="dropdown-container_dossiers"></div>
+			<br /><br /><br />
+			<b>Nom du dossier</b>
+			<input type="text" id="nom_dos" name="dataS" class="input-field" style="font-family: Calibri;width: 95%">
+			<br /><br /><br />
+			<b>Commentaires</b>
+			<textarea type="text" id="comment" name="dataS" class="input-field" style="font-family: Calibri;width: 95%;height: 80%"></textarea>
+		</div>		
+		<div class="container">
+			<p><b>Détail Proposition de service</b></p>
+			<textarea type="text" id="detail_ps" class="input-field" style="font-family: Calibri;width: 95%;height: 80%"></textarea>
+		</div>
+		<div class="container">
+			<form id="form" method="POST" action="/dossier_save">
+				<div class="dates-ps">
+					<p>
+						<b>Date d'envoi PS</b><br />
+						<input type="date" id="send_ps" class="date-field">
+						<br /><br />
+						<b>Date acceptation PS</b><br />
+						<input type="date" id="ok_ps" class="date-field"></input>
+						<br /><br />
+						<b>Date livrable</b><br />
+						<input type="date" id="send_livrable" class="date-field">
+					</p>
+					<p>
+						<b>Montant HT</b><br />
+						<input type="text" id="montant_ht" class="input-field" style="width: 100px"></input>
+						<br /><br />
+						<b>Chemin PS</b><br />
+						<input type="text" id="ps" class="input-field" style="width: 300px"></input>
+						<br /><br />
+						<b>Chemin livrable</b><br />
+						<input type="text" id="livrable" class="input-field" style="width: 300px"></input> 
+					</p>
+				</div>
+				<div id="message_html"></div>
+				<button id="save" type="submit" class="button" >Enregistrer</button>
+			</form>
+		</div>
+			<div id="message_html"></div>
+		
+	</div>
+	<script>
+        var id_dossier='';
+		// Requête AJAX pour récupérer les options des listes déroulantes
+        fetch('/getDossiers')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('dropdown-container_dossiers').innerHTML = data;
+            })
+            .catch(error => console.error('Error fetching options:', error));
+			
+		document.getElementById('dropdown-container_dossiers').addEventListener('change', () => {
+			event.preventDefault();
+			id_dossier = document.querySelector('#dropdown-container_dossiers select').value;
+ 			
+            fetch('/dossier_edit', {
+                method: 'POST',
+				headers: {
+                    'Content-Type': 'application/json'
+                },
+				body: JSON.stringify({
+                    id_dossier: id_dossier,
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+                //console.log(data);
+				const {client, nom, statut,propal_service,new_date_ps,new_date_ok,livrable,new_date_livrable,detail_ps,montant_ht,comment}=data;
+
+				document.getElementById('nom_dos').value=nom;
+				document.getElementById('detail_ps').value=detail_ps;
+				document.getElementById('ps').value=propal_service;
+				document.getElementById('livrable').value=livrable;
+				document.getElementById('send_ps').value=new_date_ps==="Invalid date"?null:new_date_ps;
+				document.getElementById('ok_ps').value=new_date_ok==="Invalid date"?null:new_date_ok;
+				document.getElementById('send_livrable').value=new_date_livrable==="Invalid date"?null:new_date_livrable;
+				document.getElementById('montant_ht').value=montant_ht;
+				document.getElementById('comment').value=comment;
+				document.getElementById('message_html').value=null;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        document.getElementById('save').addEventListener('click', () => {
+			event.preventDefault();
+			const nom=document.getElementById('nom_dos').value;
+			const detail_ps=document.getElementById('detail_ps').value;
+			const date_ps=document.getElementById('send_ps').value;
+			const date_ok=document.getElementById('ok_ps').value;
+			const date_livrable=document.getElementById('send_livrable').value;
+			const chemin_ps=document.getElementById('ps').value;
+			const chemin_livrable=document.getElementById('livrable').value;
+			const montant_ht=document.getElementById('montant_ht').value===''?null:document.getElementById('montant_ht').value;
+			const comment=document.getElementById('comment').value;
+			
+			fetch('/dossier_save', {
+                method: 'POST',
+				headers: {
+                    'Content-Type': 'application/json'
+                },
+				body: JSON.stringify({
+                    id_dossier: id_dossier,
+					nom: nom,
+					detail_ps: detail_ps,
+					date_ps: date_ps,
+					date_ok: date_ok,
+					date_livrable: date_livrable,
+					chemin_ps: chemin_ps,
+					chemin_livrable: chemin_livrable,
+					montant_ht: montant_ht,
+					comment: comment,
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+			})
+            .catch(error => console.error('Error:', error));
+        });
+
+		
+   </script>
+	<script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('console_message', (message) => {
+            const messageContainer = document.getElementById('message_html');
+			messageContainer.innerHTML = message;
+        });
+    </script>
+
+</body>
+</html>
+
+

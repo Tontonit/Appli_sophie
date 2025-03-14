@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SDSA - F</title>
+	<style>
+		body {
+			background-color: #ccffcc; /* Vert clair */
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Calibri;
+		}
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+		}
+        .logo {
+            margin-top: 10px;
+			margin-left: 10px; /* Aligne le logo à gauche */
+        }
+		.container-wrapper {
+            display: flex;
+            flex-direction: row; /* Placer les conteneurs côte à côte */
+            /*justify-content: center;*/
+            width: 100%;
+            text-align: center;
+            background-color: #45a049;
+            font-size: 14px;
+			border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 10px;
+        }
+		.container {
+			display: flex;
+            flex-direction: column;
+            align-items: center;
+			width: 45%;
+			text-align: center;
+			background-color: #ffffff;
+			padding: 10px;
+			border-radius: 20px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 10px;
+		}
+		.en_ligne {
+            display: flex;
+            /*gap: 20px;  /* Ajout d'un espace entre les éléments */
+			align-items: flex-start;
+		}
+
+		.title {
+			font-size: 24px;
+			font-weight: bold;
+			color: black;
+			margin-bottom: 20px;
+			position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+		}
+		.input-field {
+			width: 80%;
+			padding: 10px;
+			margin: 5px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.date-field {
+			width: 100px;
+			padding: 10px;
+			margin: 5px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.button {
+			width: 200px;
+			height: 50px;
+			margin: 10px;
+			font-size: 16px;
+			line-height: 1%; /* Hauteur de ligne égale à la hauteur du bouton pour centrer le texte verticalement */
+			text-align: center; /* Centrage du texte horizontalement */
+			padding: 20px 10px;
+			margin-left: 10%;
+			margin-top: 12%;
+			color: white;
+			background-color: #4CAF50;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		.button:hover {
+			background-color: #45a049;
+		}
+		.exit_button {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			color: white;
+			background-color: #4CAF50; /* Vert */
+			padding: 15px 16px;
+			text-align: center;
+			font-size: 14px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+			text-decoration: none; /* Supprime la ligne soulignée */
+			display: inline-block;  /* Rend le lien en bloc */			
+			margin: 5px auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<img src="logo_complet_SD_2.jpg" alt="Logo" width="100" height="100">
+		</div>
+		<div class="title">
+			<h2>Préparation d'une facture</h2>
+		</div>
+		<div class="exit_button">
+			<a href="Actions.html"><button id="myExit" type="button">Revenir aux actions</button></a>
+		</div>
+    </div>
+	<div class="container-wrapper">
+		<div class="container">
+			<br /><b>Liste des dossiers en cours</b>
+			<div id="dropdown-container_dossiers"></div><br />
+			<div class="en_ligne">
+				<div class="container">
+					<b>N° facture</b>
+					<input type="text" id="no_facture" class="input-field" style="width: 80%"></input>
+				</div>
+				<div class="container">
+					<b>Date facture</b>
+					<input type="date" id="date_facture" class="date-field" style="width: 80%"></input>
+				</div>
+			</div>
+			<div class="en_ligne">
+				<div class="container">
+					<b>DES</b>
+					<input type="text" id="des" class="input-field" style="width: 80%"></input>
+				</div>
+				<div class="container">
+					<b>DES date maxi</b>
+					<input type="date" id="des_max_date" class="date-field" style="width: 80%"></input>
+				</div>
+			</div>
+			<br /><b>Ref facture</b>
+			<textarea type="text" id="ref_fact" class="input-field" style="font-family: Calibri;width: 95%;height: 100%" required></textarea>
+		</div>		
+		<div class="container">
+			<br /><b>Détail Proposition de service</b>
+			<textarea type="text" id="detail_ps" class="input-field" style="font-family: Calibri;width: 95%;height: 80%"></textarea>
+			<br /><b>Commentaires</b>
+			<textarea type="text" id="comment" class="input-field" style="font-family: Calibri;width: 95%;height: 80%"></textarea>
+			<button id="update_detail_ps" class="button" >Mettre à jour</button>
+		</div>
+		<div class="container">
+			<div class="en_ligne">
+				<div class="container">
+					<b>Montant HT</b>
+					<input type="text" id="montant_ht" class="input-field" style="width: 100px"></input>
+				</div>
+				<div class="container">
+					<b>Montant TVA</b>
+					<input type="text" id="montant_tva" class="input-field" style="width: 100px"></input>
+				</div>
+				<div class="container">
+					<b>Montant TTC</b>
+					<input type="text" id="montant_ttc" class="input-field" style="width: 100px"></input>
+				</div>
+			</div>	
+			<br />
+			<b>Chemin Facture</b>
+			<input type="text" id="livrable" class="input-field" style="width: 95%"></input> 
+			<button id="init_fact" type="submit" class="button" >Initier facture</button>
+			<button id="print_fact" type="submit" class="button" >Imprimer la facture</button>
+			<div id="message_html"></div>
+		</div>
+		
+	</div>
+	<script>
+		var id_dossier='';
+		var ouvre=null;
+		
+		// Fonction pour vérifier si une date est un jour ouvrable (lundi à vendredi)
+		function isBusinessDay(date) {
+			const day = date.getDay();
+			return day >= 1 && day <= 5;
+		}
+
+		// Fonction pour obtenir le xième jour ouvrable après une date donnée
+		function getxBusinessDay(date,x) {
+			let businessDaysCount = 0;
+			let targetDate = new Date(date);
+
+			// Commencer par le mois suivant
+			targetDate.setMonth(targetDate.getMonth() + 1);
+			targetDate.setDate(1); // Aller au premier jour du mois suivant
+			let compDate = new Date(targetDate);
+			
+			while (businessDaysCount < x) {
+				if (isBusinessDay(compDate)) {
+					businessDaysCount++;
+				}
+				compDate.setDate(compDate.getDate() + 1);
+			}
+			targetDate.setDate(compDate.getDate() - 1);
+			// Retourner la date cible
+			return targetDate;
+		}
+		
+		// Requête AJAX pour récupérer les options des listes déroulantes
+        fetch('/getDossiers')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('dropdown-container_dossiers').innerHTML = data;
+            })
+            .catch(error => console.error('Error fetching options:', error));
+
+		document.getElementById('dropdown-container_dossiers').addEventListener('change', () => {
+			event.preventDefault();
+			id_dossier = document.querySelector('#dropdown-container_dossiers select').value;
+ 			
+			//console.log("dossier=",selected_dos);
+            fetch('/prepa_fact', {
+                method: 'POST',
+				headers: {
+                    'Content-Type': 'application/json'
+                },
+				body: JSON.stringify({
+                    id_dossier: id_dossier,
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+				const {nom,detail_ps,montant_ht,ue,pays,comment}=data;
+
+				document.getElementById('comment').value=comment;
+				document.getElementById('detail_ps').value=detail_ps;
+				document.getElementById('montant_ht').value=montant_ht;
+				document.getElementById('message_html').value=null;
+				if(pays==='France') {
+					montant_tva=montant_ht*0.2;
+				}else {
+					montant_tva=0;
+				}
+				let montant_ttc=montant_ht+montant_tva;
+				document.getElementById('montant_tva').value=montant_tva;
+				document.getElementById('montant_ttc').value=montant_ttc;
+				document.getElementById('des').value=ue==='oui'?'à faire':'n/a';
+				
+				const today = new Date();
+				var yyyy = today.getFullYear();
+				var mm = String(today.getMonth() + 1).padStart(2, '0');
+				var dd = String(today.getDate()).padStart(2, '0');
+				document.getElementById('date_facture').value=`${yyyy}-${mm}-${dd}`;
+
+				if(ue==='oui') {
+					document.getElementById('des').value='à faire';	
+					const dfact = new Date(document.getElementById('date_facture').value);
+					const ddes = getxBusinessDay(dfact,10);
+					yyyy = ddes.getFullYear();
+					mm = String(ddes.getMonth() + 1).padStart(2, '0');
+					dd = String(ddes.getDate()).padStart(2, '0');
+					document.getElementById('des_max_date').value=`${yyyy}-${mm}-${dd}`;
+				}else {
+					document.getElementById('des').value='n/a';
+				}
+            })
+            .catch(error => console.error('Error:', error));
+			
+			fetch('/get_max_num_fact')
+				.then(response => response.json())
+				.then(data => {
+					const {max_num_fact}=data;
+					const num_fact_str=max_num_fact.toString()
+					var num_fact_base=num_fact_str.substring(0,6);
+					
+					const aujourdHui = new Date();// Créer un nouvel objet Date pour obtenir la date du jour
+					const annee = aujourdHui.getFullYear();// Extraire l'année
+					let mois = aujourdHui.getMonth() + 1;// Extraire le mois (les mois sont indexés à partir de 0, donc ajouter 1)
+					mois=(mois < 10 ? '0' : '')+mois //ajouter 0 pour les mois <10
+
+					if((annee+mois)===num_fact_base) {
+						var index=num_fact_str.substring(6,9);
+						let num=parseInt(index, 10)+1;
+						index = num.toString().padStart(3, '0');
+					}else {
+						var index="001";
+					}
+					
+					document.getElementById('no_facture').value=annee+mois+index;
+				})
+				.catch(error => console.error('Error:', error));
+        });
+		
+		document.getElementById('init_fact').addEventListener('click', () => {
+			event.preventDefault();
+			const detail_ps=document.getElementById('detail_ps').value;
+			const num_fact=document.getElementById('no_facture').value;
+			const tva=document.getElementById('montant_tva').value;
+			const date_fact=document.getElementById('date_facture').value;
+			const annee_fact=(new Date()).getFullYear();
+			const ref_fact=document.getElementById('ref_fact').value;
+			const montant_ttc=document.getElementById('montant_ttc').value;
+			const des=document.getElementById('des').value;
+			const date_des_limite=document.getElementById('des_max_date').value;
+			const comment=document.getElementById('comment').value;
+			
+			
+			fetch('/facture_create', {
+                method: 'POST',
+				headers: {
+                    'Content-Type': 'application/json'
+                },
+				body: JSON.stringify({
+                    id_dossier: id_dossier,
+					num_fact: num_fact,
+					tva: tva,
+					date_fact: date_fact,
+					annee_fact: annee_fact,
+					ref_fact: ref_fact,
+					montant_ttc: montant_ttc,
+					des: des,
+					date_des_limite: date_des_limite,
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+			})
+            .catch(error => console.error('Error:', error));
+        });
+
+		document.getElementById('update_detail_ps').addEventListener('click', () => {
+			event.preventDefault();
+			const detail_ps=document.getElementById('detail_ps').value;
+			const comment=document.getElementById('comment').value;
+			
+			fetch('/update_detail_ps', {
+                method: 'POST',
+				headers: {
+                    'Content-Type': 'application/json'
+                },
+				body: JSON.stringify({
+                    id_dossier: id_dossier,
+					detail_ps: detail_ps,
+					comment: comment,
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+			})
+            .catch(error => console.error('Error:', error));
+        });
+
+		document.getElementById('print_fact').addEventListener('click', () => {
+			event.preventDefault();
+			const num_fact=document.getElementById('no_facture').value;
+			
+			fetch('/create_print_view', {
+                method: 'POST',
+				headers: {
+                    'Content-Type': 'application/json'
+                },
+				body: JSON.stringify({
+                    num_fact: num_fact,
+					id_dossier: id_dossier,
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+			})
+            .catch(error => console.error('Error:', error));
+			
+			
+        });
+		
+   </script>
+	<script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('console_message', (message) => {
+            const messageContainer = document.getElementById('message_html');
+			messageContainer.innerHTML = message;
+        });
+    </script>
+
+</body>
+</html>
+
+

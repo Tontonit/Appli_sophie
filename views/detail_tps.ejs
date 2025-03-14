@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>Utilisateur</th>
+	  <th>Jour</th>
+      <th>Durée</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(row => { %>
+      <tr>
+        <td><%= row.trigram %></td>
+		<td><%= row.jour %></td>
+        <td><%= row.duree %></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>

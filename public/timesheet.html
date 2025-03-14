@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SDSA - T</title>
+	<style>
+		body {
+			background-color: #ccffcc; /* Vert clair */
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Arial, sans-serif;
+		}
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+		}
+        .logo {
+            margin-top: 10px;
+			margin-left: 10px; /* Aligne le logo à gauche */
+        }
+		.container-wrapper {
+            display: flex;
+            flex-direction: row; /* Placer les conteneurs côte à côte */
+            /*justify-content: center;*/
+            width: 95%;
+            text-align: center;
+            background-color: #45a049;
+            font-size: 14px;
+			border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 10px;
+			gap: 10px;  /* Ajout d'un espace entre les éléments */
+			
+        }
+		.container {
+			display: flex;
+            flex-direction: column;
+            /*justify-content: center;*/
+			width: 50%;
+			text-align: center;
+			background-color: #ffffff;
+			padding: 10px;
+			border-radius: 20px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 10px;
+		}
+		.en_ligne {
+            display: flex;
+            gap: 40px;  /* Ajout d'un espace entre les éléments */
+			align-items: flex-start;
+		}
+		.title {
+			font-size: 24px;
+			font-weight: bold;
+			color: black;
+			margin-bottom: 20px;
+			position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+		}
+		.input-field {
+			width: 80%;
+			padding: 10px;
+			margin: 10px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.button {
+			width: 80%;
+			padding: 20px 10px;
+			margin: 10px 0;
+			margin-top: 50px;
+			font-size: 18px;
+			color: white;
+			background-color: #4CAF50;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		.button:hover {
+			background-color: #45a049;
+		}
+		.exit_button {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			color: white;
+			background-color: #4CAF50; /* Vert */
+			padding: 15px 16px;
+			text-align: center;
+			font-size: 14px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+			text-decoration: none; /* Supprime la ligne soulignée */
+			display: inline-block;  /* Rend le lien en bloc */			
+			margin: 5px auto;
+		}
+		.disabled {
+			background-color: #grey; /* Couleur du bouton désactivé */
+			cursor: not-allowed;
+		}
+		.table-container {
+		  max-height: 300px; /* La hauteur maximale de la table */
+		  overflow-y: auto; /* Ajoute une barre de défilement verticale si nécessaire */
+		  border: 1px solid #ddd;
+		}
+		table {
+		  width: 100%;
+		  border-collapse: collapse;
+		}
+		th, td {
+		  border: 1px solid #ddd;
+		  padding: 8px;
+		  text-align: left;
+		}
+		th {
+		  background-color: #f4f4f4;
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<img src="logo_complet_SD_2.jpg" alt="Logo" width="100" height="100">
+		</div>
+		<div class="title">Feuille de temps</div>
+    </div>
+	<div class="container-wrapper">
+		<!div class="en_ligne">
+			<div class="container">
+				<form id="form" method="POST" action="/submit_timestamp">
+					<b>Dossiers en cours</b>
+					<div id="dropdown-container_dossiers"></div>
+					<button id="startwork" type="submit" class="button" >Débuter une session de travail</button>
+					<button id="stopwork" type="button" class="button" >Terminer une session de travail</button>
+				</form>
+				<div id="message_html"></div>
+			</div>
+			<div class="container">
+				<div class="en_ligne">
+					<div class="container">
+						<br /><b>Liste des utilisateurs</b>
+						<div id="dropdown-container_users"></div><br />
+					</div>
+					<div class="container">
+						<br /><b>Dossiers en cours</b>
+						<div id="dropdown-container_dossiers_ts"></div><br />
+					</div>
+				</div>
+				<div class="en_ligne">
+					<div class="container">
+						<br /><b>Détail temps passé</b>
+						<div id="time" class="table-container">
+						</div>
+					</div>
+					<div class="container">
+						<br /><b>Temps total</b>
+						<div id="total_time" class="table-container">
+						</div>
+					</div>
+				</div>
+						
+		<!/div>
+	</div>
+	<a href="Actions.html"><button id="myExit" type="button" class="exit_button">Revenir aux actions</button></a>
+
+	<script>
+        var id_user='';
+		var id_dossier='';
+		
+		// Requête AJAX pour récupérer les options de la liste déroulante
+        fetch('/getDossiers')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('dropdown-container_dossiers').innerHTML = data;
+				document.getElementById('dropdown-container_dossiers_ts').innerHTML = data;
+            })
+            .catch(error => console.error('Error fetching options:', error));
+        
+		// Gestion des clics sur les boutons 
+		document.getElementById('startwork').addEventListener('click', () => { 
+			submitData('start'); 
+		}); 
+		
+		document.getElementById('stopwork').addEventListener('click', () => { 
+			submitData('stop'); 
+		});
+		
+        function submitData(action) {
+            event.preventDefault();
+			const selectElement = document.querySelector('#dropdown-container_dossiers select');
+            const id_dossier = selectElement.value;
+			//console.log("selectElement=",selectElement);
+            fetch('/submit_timestamp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: action,
+                    id_dossier: id_dossier,
+					 
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                //console.log(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+		
+		fetch('/getUsers')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('dropdown-container_users').innerHTML = data;
+            })
+            .catch(error => console.error('Error fetching options:', error));
+
+		document.getElementById('dropdown-container_users').addEventListener('change', () => { 
+			id_user=document.querySelector('#dropdown-container_users select').value;
+			id_dossier=document.querySelector('#dropdown-container_dossiers_ts select').value;
+			go();
+		}); 
+		
+		document.getElementById('dropdown-container_dossiers_ts').addEventListener('change', () => { 
+			id_user=document.querySelector('#dropdown-container_users select').value;
+			id_dossier=document.querySelector('#dropdown-container_dossiers_ts select').value;
+			go();
+		}); 
+
+		function go() {
+			fetch('/getTime', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					id_user: id_user,
+					id_dossier: id_dossier,
+				})
+			})
+			.then(response => response.text())
+			.then(data => {
+				document.getElementById('time').innerHTML = data;
+			})
+			.catch(error => console.error('Error fetching options:', error));
+			
+			fetch('/getTotalTime', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					id_user: id_user,
+					id_dossier: id_dossier,
+				})
+			})
+			.then(response => response.text())
+			.then(data => {
+				document.getElementById('total_time').innerHTML = data;
+			})
+			.catch(error => console.error('Error fetching options:', error));
+		}
+
+   </script>
+   	<script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('console_message', (message) => {
+            const messageContainer = document.getElementById('message_html');
+			messageContainer.innerHTML = message;
+        });
+    </script>
+	<script>
+		// Fonction pour obtenir la condition depuis le serveur Node.js
+		async function checkCondition() {
+			try {
+				const response = await fetch('/api/checkCondition');
+				const data = await response.json();
+				
+				const button = document.getElementById('myExit');
+
+				if (data.conditionMet) {
+					button.classList.remove('disabled');
+					button.disabled = false;
+				} else {
+					button.classList.add('disabled');
+					button.disabled = true;
+				}
+			} 
+			catch (error) {
+				console.error('Erreur lors de la vérification de la condition :', error);
+			}
+		}
+
+		// Vérifiez la condition à intervalles réguliers
+		setInterval(checkCondition, 2000); // Vérifiez toutes les 2 secondes
+	</script>
+</body>
+</html>
