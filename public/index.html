@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sophie DORIN - Société d'Avocats</title>
+	<style>
+		body {
+			background-color: #ccffcc; /* Vert clair */
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Arial, sans-serif;
+		}
+		img {
+			margin-top: 20px;
+		}
+		.container {
+			text-align: center;
+			background-color: #ffffff;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 30px 0;
+		}
+		.title {
+			font-size: 24px;
+			font-weight: bold;
+			color: #4CAF50;
+			margin-bottom: 20px;
+		}
+		.input-field {
+			width: 80%;
+			padding: 10px;
+			margin: 10px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.button {
+			width: 80%;
+			padding: 10px;
+			margin: 10px 0;
+			font-size: 18px;
+			color: white;
+			background-color: #4CAF50;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		.button:hover {
+			background-color: #45a049;
+		}
+	</style>
+</head>
+<body>
+  	<img src="logo_complet_SD_2.jpg" alt="Logo" width="300" height="300">
+	<div class="container">
+		<div class="title">Entrez votre @email</div>
+			<form id="form" method="POST" action="/submit_login">
+				<input type="text" id="zoneSaisie" name="dataS" class="input-field" placeholder="Entrez vos données" required>
+				<button id="monBouton" type="submit" class="button">Soumettre</button>
+			</form>
+		<div id="message_html"></div>
+	</div>
+		
+	<script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('console_message', (message) => {
+            const messageContainer = document.getElementById('message_html');
+			messageContainer.innerHTML = message;
+        });
+    </script>
+
+</body>
+</html>
