@@ -36,16 +36,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Route pour les pages HTML
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'accueil.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/actions', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'actions.html'));
 });
 
-app.get('/factures', (req, res) => {update_detail_ps
-    res.sendFile(path.join(__dirname, 'public', 'factures.html'));
-});
+//app.get('/factures', (req, res) => {update_detail_ps
+//    res.sendFile(path.join(__dirname, 'public', 'factures.html'));
+//});
 
 //------------------------------------------------------------------------------------------------
 
