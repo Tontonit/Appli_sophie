@@ -9,7 +9,8 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const moment = require('moment');
 const { exec } = require('child_process');
-const port_web = 8888;
+const port_web = 8100;
+const port_bdd=3306;
 var utilisateur = "";
 var id_user='';
 var dossier_courant="";
@@ -54,7 +55,7 @@ const db = mysql.createConnection({
     user: 'sdo_adm', 
     password: 'A72FC3A28DA2B213A50CA963C413C028', 
     database: 'sdo_bdd',
-	port: '3306'
+	port: port_bdd
 });
 //const db = mysql.createConnection({
 //    host: 'localhost', 
