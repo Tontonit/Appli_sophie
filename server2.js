@@ -50,21 +50,22 @@ app.get('/actions', (req, res) => {
 //------------------------------------------------------------------------------------------------
 
 // Configuration de la connexion MySQL
+//const db = mysql.createConnection({
+//    host: process.env.DB_HOST,
+//    user: process.env.DB_USER,
+//    password: process.env.DB_PASSWORD,
+//    database: process.env.DB_NAME,
+//	port: port_bdd
+//});
+
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    host: 'mysql-sdo.alwaysdata.net',
+    user: 'sdo_adm', 
+    password: 'A72FC3A28DA2B213A50CA963C413C028', 
+    database: 'sdo_bdd',
 	port: port_bdd
 });
 
-//const db = mysql.createConnection({
-//    host: 'mysql-sdo.alwaysdata.net',
-//    user: 'sdo_adm', 
-//    password: 'A72FC3A28DA2B213A50CA963C413C028', 
-//    database: 'sdo_bdd',
-//	port: port_bdd
-//});
 //const db = mysql.createConnection({
 //    host: 'localhost', 
  //   user: 'sdo_adm', 
