@@ -5,124 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>SDSA - DE</title>
-	<style>
-		body {
-			background-color: #ccffcc; /* Vert clair */
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: center;
-			height: 100vh;
-			margin: 0;
-			font-family: Calibri;
-		}
-        .header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-		}
-        .logo {
-            margin-top: 10px;
-			margin-left: 10px; /* Aligne le logo à gauche */
-        }
-		.container-wrapper {
-            display: flex;
-            flex-direction: row; /* Placer les conteneurs côte à côte */
-            /*justify-content: center;*/
-            width: 100%;
-            text-align: center;
-            background-color: #45a049;
-            font-size: 14px;
-			border-radius: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			margin: 10px;
-        }
-		.container {
-			display: flex;
-            flex-direction: column;
-            /*justify-content: center;*/
-			width: 45%;
-			text-align: center;
-			background-color: #ffffff;
-			padding: 10px;
-			border-radius: 20px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			margin: 10px;
-		}
-		.dates-ps {
-            display: flex;
-            gap: 20px;  /* Ajout d'un espace entre les éléments */
-			align-items: flex-start;
-		}
-		.title {
-			font-size: 24px;
-			font-weight: bold;
-			color: black;
-			margin-bottom: 20px;
-			position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-		}
-		.input-field {
-			width: 80%;
-			padding: 10px;
-			margin: 5px 0;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-		}
-		.date-field {
-			width: 100px;
-			padding: 10px;
-			margin: 5px 0;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-		}
-		.button {
-			width: 200px;
-			height: 50px;
-			margin: 10px;
-			font-size: 16px;
-			line-height: 1%; /* Hauteur de ligne égale à la hauteur du bouton pour centrer le texte verticalement */
-			text-align: center; /* Centrage du texte horizontalement */
-			padding: 20px 10px;
-			margin-left: 10%;
-			margin-top: 12%;
-			color: white;
-			background-color: #4CAF50;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
-		.button:hover {
-			background-color: #45a049;
-		}
-		.exit_button {
-			position: fixed;
-			top: 20px;
-			right: 20px;
-			color: white;
-			background-color: #4CAF50; /* Vert */
-			padding: 15px 16px;
-			text-align: center;
-			font-size: 14px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-			text-decoration: none; /* Supprime la ligne soulignée */
-			display: inline-block;  /* Rend le lien en bloc */			
-			margin: 5px auto;
-		}
-		.toolbar {
-            margin-bottom: 10px;
-        }
-        .toolbar button {
-            margin-right: 5px;
-        }
-	</style>
+	<link rel="stylesheet" href="styles.css"> <!-- Fichier CSS commun -->
 </head>
 <body>
 	<div class="header">
@@ -132,15 +15,12 @@
 		<div class="title">
 			<h2>Dossiers clients</h2>
 		</div>
-		<div class="exit_button">
-			<a href="Actions.html"><button id="myExit" type="button">Revenir aux actions</button></a>
-		</div>
     </div>
 	<div class="container-wrapper">
 		<div class="container">
 			<br />
 			<b>Liste des dossiers en cours</b><br />
-			<div id="dropdown-container_dossiers"></div>
+			<div id="dropdown-containers"></div>
 			<br /><br /><br />
 			<b>Nom du dossier</b>
 			<input type="text" id="nom_dos" name="dataS" class="input-field" style="font-family: Calibri;width: 95%">
@@ -154,7 +34,7 @@
 		</div>
 		<div class="container">
 			<form id="form" method="POST" action="/dossier_save">
-				<div class="dates-ps">
+				<div class="en_ligne">
 					<p>
 						<b>Date d'envoi PS</b><br />
 						<input type="date" id="send_ps" class="date-field">
@@ -181,21 +61,22 @@
 			</form>
 		</div>
 			<div id="message_html"></div>
-		
 	</div>
+	<a href="Actions.html"><button id="myExit" type="button" class="exit_button">Revenir aux actions</button></a>
+	
 	<script>
         var id_dossier='';
 		// Requête AJAX pour récupérer les options des listes déroulantes
         fetch('/getDossiers')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('dropdown-container_dossiers').innerHTML = data;
+                document.getElementById('dropdown-containers').innerHTML = data;
             })
             .catch(error => console.error('Error fetching options:', error));
 			
-		document.getElementById('dropdown-container_dossiers').addEventListener('change', () => {
+		document.getElementById('dropdown-containers').addEventListener('change', () => {
 			event.preventDefault();
-			id_dossier = document.querySelector('#dropdown-container_dossiers select').value;
+			id_dossier = document.querySelector('#dropdown-containers select').value;
  			
             fetch('/dossier_edit', {
                 method: 'POST',

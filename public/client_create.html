@@ -5,113 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>SDSA - CC</title>
-	<style>
-		body {
-			background-color: #ccffcc; /* Vert clair */
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: center;
-			height: 100vh;
-			margin: 0;
-			font-family: Calibri;
-		}
-        .header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-		}
-        .logo {
-            margin-top: 10px;
-			margin-left: 10px; /* Aligne le logo à gauche */
-        }
-		.container-wrapper {
-            display: flex;
-            flex-direction: row; /* Placer les conteneurs côte à côte */
-            /*justify-content: center;*/
-            width: 100%;
-            text-align: center;
-            background-color: #45a049;
-            font-size: 14px;
-			border-radius: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			margin: 10px;
-        }
-		.container-adresse {
-            display: flex;
-            flex-direction: row; /* Placer les conteneurs côte à côte */
-            width: 100%;
-            font-size: 14px;
-        }
-		.container {
-			display: flex;
-            flex-direction: column;
-			width: 90%;
-			text-align: left;
-			background-color: #ffffff;
-			padding: 5px;
-			/*border-radius: 20px;*/
-			/*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
-			margin: 10px;
-		}
-		.siren-siret {
-            display: flex;
-            /*gap: 20px;  /* Ajout d'un espace entre les éléments */
-			align-items: flex-start;
-		}
-		.title {
-			font-size: 24px;
-			font-weight: bold;
-			color: black;
-			margin-bottom: 20px;
-			position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-		}
-		.input-field {
-			width: 80%;
-			padding: 10px;
-			margin: 5px 0;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-		}
-		.button {
-			width: 200px;
-			height: 50px;
-			margin: 10px;
-			font-size: 16px;
-			line-height: 1%; /* Hauteur de ligne égale à la hauteur du bouton pour centrer le texte verticalement */
-			text-align: center; /* Centrage du texte horizontalement */
-			color: white;
-			background-color: #4CAF50;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
-		.button:hover {
-			background-color: #45a049;
-		}
-		.exit_button {
-            margin-top: 10px;
-			margin-right: 10px; /* Aligne le bouton à droite */
-			top: 20px;
-			right: 20px;
-			color: white;
-			background-color: #4CAF50; /* Vert */
-			padding: 15px 16px;
-			text-align: center;
-			font-size: 14px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-			text-decoration: none; /* Supprime la ligne soulignée */
-			display: inline-block;  /* Rend le lien en bloc */			
-		}
-	</style>
+	<link rel="stylesheet" href="styles.css"> <!-- Fichier CSS commun -->
 </head>
 <body>
 	<div class="header">
@@ -121,13 +15,10 @@
 		<div class="title">
 			<h2>Clients</h2>
 		</div>
-		<div class="exit_button">
-			<a href="Actions.html"><button id="myExit" type="button">Revenir aux actions</button></a>
-		</div>
     </div>
 	<div class="container-wrapper">
 		<div class="container">
-			<div class="siren-siret">
+			<div class="en_ligne">
 				<div class="container">
 					<b>N° SIRET</b>
 					<input type="text" id="siret" class="input-field" placeholder="N°SIRET" >
@@ -200,7 +91,8 @@
 			</form>
 		</div>
 	</div>
-
+	<a href="Actions.html"><button id="myExit" type="button" class="exit_button">Revenir aux actions</button></a>
+	
 	<script>
 		document.getElementById('siret').addEventListener('blur', function() {
             let siret = this.value.replace(/\s+/g, ''); // Supprime les espaces

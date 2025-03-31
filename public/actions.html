@@ -2,63 +2,22 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SDSA - Actions</title>
-   <style>
-		body {
-			background-color: #ccffcc; /* Vert clair */
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: center;
-			height: 100vh;
-			margin: 0;
-			font-family: Arial, sans-serif;
-		}
-		img {
-			margin-top: 20px;
-		}
-		.container {
-			text-align: center;
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 10px;
-			margin-top: 50px;
-		}
-		.button {
-			text-decoration: none; /* Supprime la ligne soulignée */
-			display: inline-block;  /* Rend le lien en bloc */
-			width: 200px;
-			height: 50px;
-			margin: 10px;
-			font-size: 16px;
-			color: white;
-			background-color: #4CAF50; /* Vert */
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-			text-align: center;
-		}
-		.button:hover {
-			background-color: #45a049; /* Vert foncé */
-		}
-
-  </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SDSA - Actions</title>
+	<link rel="stylesheet" href="styles.css"> <!-- Fichier CSS commun -->
 </head>
 <body>
 	<img src="logo_complet_SD_2.jpg" alt="Logo" width="300" height="300">
-	<div class="container">
-		<a href="dossier_creer.html"><button class="button">Créer un dossier</button></a>
-		<a href="dossier_edit.html"><button class="button">Modifier un dossier en cours</button></a>
-		<a href="client_create.html"><button class="button">Créer une fiche client</button></a>
-		<a href="client_edit.html"><button class="button">Modifier une fiche client</button></a>
-		<a href="Facture_prepa.html"><button class="button">Préparation facture</button></a>
-		<a href="Factures_edit.html"><button class="button">MàJ factures</button></a>
-		<a href="Timesheet.html"><button class="button">Timesheet</button></a>
-		
-		<a href="Dashboard.html"><button class="button">Dashboard</button></a>
+	<div class="container-action">
+		<a href="dossier_creer.html"><button class="button-action">Créer un dossier</button></a>
+		<a href="dossier_edit.html"><button class="button-action">Modifier un dossier en cours</button></a>
+		<a href="client_create.html"><button class="button-action">Créer une fiche client</button></a>
+		<a href="client_edit.html"><button class="button-action">Modifier une fiche client</button></a>
+		<a href="Facture_prepa.html"><button class="button-action">Préparation facture</button></a>
+		<a href="Timesheet.html"><button class="button-action">Timesheet</button></a>
+		<!-- <a href="Factures_edit.html"><button class="button-action">MàJ factures</button></a> 
+		<a href="Dashboard.html"><button class="button-action">Dashboard</button></a> -->
 	</div>
 </body>
 </html>

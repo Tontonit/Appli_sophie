@@ -88,22 +88,21 @@ db.connect((err) => {
 // Utiliser body-parser pour analyser les corps de requête en JSON
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Route pour gérer la requête POST
+
 app.post('/submit_login', (req, res) => {
 	utilisateur = req.body.dataS;
 
-	const query = `SELECT count(*) FROM comptes WHERE login=?`;
-	console.log("server2.js - utilisateur= ", utilisateur," + query=",query);
+	const query = `SELECT IFNULL((SELECT id FROM comptes WHERE login = ? LIMIT 1), 'Non trouvé') AS resultat`;
+	//console.log("server2.js - utilisateur= ", utilisateur," + query=",query);
 	db.query(query, [utilisateur], (err, result) => {
 		if (err) throw err;
-		console.log("result=",result);
-		const isok=result[0]['count(*)'];
-		console.log("isok=",isok);
-		if (isok===0) {
+		//console.log("result=",result);
+		if (result[0].resultat==='Non trouvé') {
 			message=`Vous n'êtes pas autorisé à utiliser cette application.<br>Veuillez contacter un administrateur.`;
 			io.emit('console_message', message);
 		} else {
-			id_user=result[0]['id'];
+			id_user=result[0].resultat;
+			//console.log("id_user=",id_user);
 			res.redirect("/actions");
 		}
 	});
@@ -121,7 +120,7 @@ app.post('/submit_timestamp', (req, res) => {
 			io.emit('console_message', message);
 			return; 
 		}
-		io.emit('console_message', message);
+		io.emit('console_message', message + id_user);
 		const query_start = `INSERT INTO time_sheet (id_cpte,time_start,id_dossier) VALUES (?,NOW(),?)`;
 		db.query(query_start, [id_user, id_dossier], (err, result) => {
 			if (err) throw err;
@@ -134,20 +133,20 @@ app.post('/submit_timestamp', (req, res) => {
 			io.emit('console_message', message);
 			return; 
 		}
-		io.emit('console_message', message);
+		io.emit('console_message', message + id_user);
 		const query_stop = `update time_sheet set time_stop=NOW() where id_dossier=? and id_cpte=? and time_stop is NULL`;
 		db.query(query_stop,[id_dossier,id_user], (err, result) => {
 			if (err) throw err;
 			session_ouverte='no';
 			dossier_courant='';	
-			console.log("query_stop=",query_stop);
-			console.log("result=",result);
+			//console.log("query_stop=",query_stop);
+			//console.log("result=",result);
 		});
 		const query_diff = `update time_sheet SET duree = TIMEDIFF(time_stop, time_start) where id_dossier=? and id_cpte=? and duree is NULL`;
 		db.query(query_diff, [id_dossier,id_user],(err, result) => {
 			if (err) throw err;
-			console.log("query_diff=",query_diff);
-			console.log("result=",result);
+			//console.log("query_diff=",query_diff);
+			//console.log("result=",result);
 		});
 		
 	}

@@ -5,126 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>SDSA - DC</title>
-	<style>
-		body {
-			background-color: #ccffcc; /* Vert clair */
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: center;
-			height: 100vh;
-			margin: 0;
-			font-family: Calibri;
-		}
-        .header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-		}
-        .logo {
-            margin-top: 10px;
-			margin-left: 10px; /* Aligne le logo à gauche */
-        }
-		.container {
-			display: flex;
-            flex-direction: column;
-			width: 700px;
-			text-align: center;
-			background-color: #ffffff;
-			padding: 10px;
-			border-radius: 20px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			margin: 50px;
-			margin-left: 60px;
-			gap: 40px;  /* Ajout d'un espace entre les éléments */
-		}
-		.container_dossier {
-			display: flex;
-            flex-direction: column;
-			width: 90%;
-			text-align: left;
-			background-color: #ffffff;
-			padding: 5px;
-			/*border-radius: 20px;*/
-			/*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
-			margin: 10px;
-		}
-
-		.container_dossier_bis {
-			display: flex;
-            flex-direction: column;
-			width: 100%;
-			align-items: center; /* Centre les éléments horizontalement */
-			background-color: #ffffff;
-			padding: 10px;
-			border-radius: 20px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			margin: 30px 0;
-			gap: 20px;  /* Ajout d'un espace entre les éléments */
-			max-width: 400px; /* Adjust the width as needed */
-		}       
-		.right {
-            display: flex;
-            gap: 20px;  /* Ajout d'un espace entre les éléments */
-			align-items: flex-start;
-        }
-		.title {
-			font-size: 24px;
-			font-weight: bold;
-			color: black;
-			margin-bottom: 20px;
-			position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-		}
-		.input-field {
-			width: 80%;
-			padding: 10px;
-			margin: 10px 0;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-		}
-		.button {
-			width: 200px;
-			height: 50px;
-			margin: 10px;
-			font-size: 16px;
-			line-height: 1%; /* Hauteur de ligne égale à la hauteur du bouton pour centrer le texte verticalement */
-			text-align: center; /* Centrage du texte horizontalement */
-			padding: 20px 10px;
-			margin-left: 10%;
-			margin-top: 12%;
-			color: white;
-			background-color: #4CAF50;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
-		.button:hover {
-			background-color: #45a049;
-		}
-		.exit_button {
-			position: fixed;
-			top: 20px;
-			right: 20px;
-			color: white;
-			background-color: #4CAF50; /* Vert */
-			padding: 15px 16px;
-			text-align: center;
-			font-size: 14px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-			text-decoration: none; /* Supprime la ligne soulignée */
-			display: inline-block;  /* Rend le lien en bloc */			
-			margin: 5px auto;
-		}
-		
-	</style>
+	<link rel="stylesheet" href="styles.css"> <!-- Fichier CSS commun -->
 </head>
 <body>
 	<div class="header">
@@ -132,28 +13,28 @@
 			<img src="logo_complet_SD_2.jpg" alt="Logo" width="100" height="100">
 		</div>
 		<div class="title">Dossiers clients</div>
-		<div class="exit_button">
-			<a href="Actions.html"><button id="myExit" type="button">Revenir aux actions</button></a>
-		</div>
     </div>
-	<div class="container">
-		<!form id="form" method="POST" action="/dossier_creer">
-			<div class="right">
-				<div class="container_dossier">
+	<div class="container-wrapper">
+		<div class="container">
+			<div class="en_ligne">
+				<div class="container">
 					<b>Liste des clients</b>
 					<div id="dropdown-container_clients"></div>
-					<br /><br />
-					<b>Liste des dossiers en cours</b>
-						<div id="dropdown-container_dossiers"></div>
-					<br /><br />
-					<input type="text" id="zoneSaisie" name="dataS" class="input-field" placeholder="Saisissez un nom de dossier" value="Non chargeable" required>
 				</div>
-				<button id="create" type="submit" class="button" >Nouveau dossier</button>
+				<div class="container">
+					<b>Liste des dossiers en cours</b>
+					<div id="dropdown-containers"></div>
+				</div>
 			</div>
-		<!/form>
-		<div id="message_html"></div>
+			<br /><br /><br /><br />
+			<input type="text" id="zoneSaisie" name="dataS" class="input-field" placeholder="Saisissez un nom de dossier" value="Non chargeable" required>
+			<br /><br />
+			<button id="create" type="submit" class="button-action" >Nouveau dossier</button>
+			<div id="message_html"></div>
+		</div>
 	</div>
-
+	<a href="Actions.html"><button id="myExit" type="button" class="exit_button">Revenir aux actions</button></a>
+	
 	<script>
         var id_client;
 		// Requête AJAX pour récupérer les options des listes déroulantes
@@ -178,7 +59,7 @@
             })
  				.then(response => response.text())
 				.then(data => {
-					document.getElementById('dropdown-container_dossiers').innerHTML = data;
+					document.getElementById('dropdown-containers').innerHTML = data;
 				})
 				.catch(error => console.error('Error fetching options:', error));
 			

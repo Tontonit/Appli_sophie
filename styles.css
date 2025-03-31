@@ -1,0 +1,151 @@
+body {
+	background-color: #ccffcc; /* Vert clair */
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+	font-family: Calibri;
+}
+img {
+	margin-top: 20px;
+}
+.header {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+}
+.logo {
+	margin-top: 10px;
+	margin-left: 10px; /* Aligne le logo à gauche */
+}
+.container-wrapper {
+	display: flex;
+	flex-direction: row; /* Placer les conteneurs côte à côte */
+	width: 100%;
+	text-align: center;
+	background-color: #45a049; /*#0E0075; /*bleu Sophie proportionnel*//*#45a049;/* Vert */
+	font-size: 14px;
+	border-radius: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 10px;
+	gap: 10px;  /* Ajout d'un espace entre les éléments */
+}
+.button {
+	text-decoration: none; /* Supprime la ligne soulignée */
+	display: inline-block;  /* Rend le lien en bloc */
+	width: 200px;
+	height: 50px;
+	margin: 10px;
+	font-size: 16px;
+	line-height: 1%; /* Hauteur de ligne égale à la hauteur du bouton pour centrer le texte verticalement */
+	text-align: center; /* Centrage du texte horizontalement */
+	padding: 20px 10px;
+	margin-left: 10%;
+	margin-top: 12%;
+	color: white;
+	background-color: #4CAF50; /*#15007c; /*bleu foncé Sophie*//*#4CAF50; /* Vert */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+.button-action {
+	text-decoration: none; /* Supprime la ligne soulignée */
+	display: inline-block;  /* Rend le lien en bloc */
+	width: 200px;
+	height: 50px;
+	margin: 10px;
+	font-size: 16px;
+	color: white;
+	background-color: #4CAF50; /*#15007c; /*bleu foncé Sophie*//*#4CAF50; /* Vert */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	text-align: center;
+}
+.button:hover {
+	background-color: #45a049; /*#0E0075; /*bleu Sophie proportionnel*//*#45a049;/* Vert */
+}
+.exit_button {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	color: white;
+	background-color: #4CAF50; /*#15007c; /*bleu foncé Sophie*//*#4CAF50; /* Vert */	
+	padding: 15px 16px;
+	text-align: center;
+	font-size: 14px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	text-decoration: none; /* Supprime la ligne soulignée */
+	display: inline-block;  /* Rend le lien en bloc */			
+	margin: 5px auto;
+}
+.title {
+	font-size: 24px;
+	font-weight: bold;
+	color: black;
+	margin-bottom: 20px;
+	position: absolute; /*pas partout*/
+	left: 50%;
+	transform: translateX(-50%);
+}
+.input-field {
+	width: 80%;
+	padding: 10px;
+	margin: 5px 0; /*pas partout*//*parfois 10px*/
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%; /*pas partout*//*parfois 700px;*//*parfois 45%;*/
+	text-align: left;
+	background-color: #ffffff;
+	padding: 10px;
+	border-radius: 20px;
+	margin: 10px;/*pas partout*//*parfois 50px;*/
+	/*pas partout*//*parfois margin-left: 60px;*/
+	/*pas partout*//*parfois gap: 40px;  /* Ajout d'un espace entre les éléments */
+}
+.container-action {
+	text-align: center;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+	margin-top: 50px;
+}
+.container-index {
+	text-align: center;
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 20px;
+	margin: 30px 0;
+}
+.container-adresse {
+	display: flex;
+	flex-direction: row; /* Placer les conteneurs côte à côte */
+	width: 100%;
+	font-size: 14px;
+}
+.en_ligne {
+	display: flex;
+	gap: 20px;  /* Ajout d'un espace entre les éléments */
+	align-items: flex-start;
+}
+.date-field {
+	width: 100px;
+	padding: 10px;
+	margin: 5px 0;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
