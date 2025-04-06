@@ -28,6 +28,7 @@
     "debug": "^2.6.9",
     "depd": "^2.0.0",
     "destroy": "^1.2.0",
+    "dotenv": "^16.4.7",
     "dunder-proto": "^1.0.1",
     "ee-first": "^1.1.1",
     "ejs": "^3.1.10",
@@ -105,10 +106,9 @@
     "vary": "^1.1.2",
     "ws": "^8.17.1"
   },
-  "devDependencies": {},
   "scripts": {
-	"start": "node server2.js"
-},
+    "start": "node server2.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tontonit/Appli_sophie.git"

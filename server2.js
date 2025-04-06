@@ -1,16 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-const app = express();
+const dotenv = require('dotenv');
+const moment = require('moment');
+const { exec } = require('child_process');
 const path = require('path');
 const http = require('http');
 const socketIo = require('socket.io');
+
+const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-const moment = require('moment');
-const { exec } = require('child_process');
-const port_web = 8100;
-const port_bdd=3306;
+
 var utilisateur = "";
 var id_user='';
 var dossier_courant="";
@@ -20,10 +21,12 @@ var session_ouverte='no'
 app.set('view engine', 'ejs');
 
 //------------------------------------------------------------------------------------------------
+// Charger les variables d'environnement
+dotenv.config();
 
 // Démarrer le serveur web
-server.listen(port_web, () => {
-    console.log(`Serveur en cours d'exécution sur http://localhost:${port_web}`);
+server.listen(process.env.WEB_PORT,process.env.WEB_HOST, () => {
+    console.log(`Serveur en cours d'exécution sur http://localhost:${process.env.WEB_PORT}`);
 });
 
 // Configurer le middleware
@@ -43,20 +46,12 @@ app.get('/actions', (req, res) => {
 });
 
 const db = mysql.createConnection({
-    host: 'mysql-sdo.alwaysdata.net',
-    user: 'sdo_adm', 
-    password: 'A72FC3A28DA2B213A50CA963C413C028', 
-    database: 'sdo_bdd',
-	port: port_bdd
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER, 
+    password: process.env.DB_PASSWORD, 
+    database: process.env.DB_NAME,
+	port: process.env.DB_PORT
 });
-
-//const db = mysql.createConnection({
-//    host: 'localhost', 
- //   user: 'sdo_adm', 
- //   password: 'F2FA0A55C06171BB441843BAD997A9D2645CE813B8C768292E5753BCD3BABE53', 
-//    database: 'sophie_bdd',
-//	port: '3306'
-//});
 
 // Connexion à la base de données
 db.connect((err) => {
