@@ -84,7 +84,7 @@
 						</div>
 					</div>
 					<div class="container">
-						<span id="message_html"></span>
+						<div id="message_html"></div>
 						<button id="create" type="submit" class="button-action">Enregistrer</button>
 					</div>
 				</div>
@@ -100,7 +100,7 @@
  			document.getElementById('siren').value = siret.substring(0, 9); // Copie les 9 premiers caractères
         });
 		document.getElementById('pays').addEventListener('change', function() {
-            console.log("this.value=",this.value," + pays=",document.getElementById('pays').value);
+            //console.log("this.value=",this.value," + pays=",document.getElementById('pays').value);
 			if (document.getElementById('pays').value==='France') {
 				document.getElementById('ue_na').checked=true;
 				document.getElementById('ue_na').value='true';				
@@ -160,26 +160,17 @@
 					ue_na: ue_na,
                 })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                console.log(data);
+				if (data.message) {
+					// Afficher le message dans la page actuelle
+					document.getElementById('message_html').innerHTML = data.message;
+				}
             })
             .catch(error => console.error('Error:', error));
         });
-
-		
-   </script>
-	<script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-
-        socket.on('console_message', (message) => {
-            const messageContainer = document.getElementById('message_html');
-			messageContainer.innerHTML = message;
-        });
     </script>
-
-</body>
+/body>
 </html>
 
 

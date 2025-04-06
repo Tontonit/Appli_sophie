@@ -6,11 +6,9 @@ const moment = require('moment');
 const { exec } = require('child_process');
 const path = require('path');
 const http = require('http');
-const socketIo = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
 
 var utilisateur = "";
 var id_user='';
@@ -68,7 +66,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //------------------GESTION DE LA PAGE ACCUEIL--------------------------------------------------
 
 app.post('/submit_login', (req, res) => {
-	utilisateur = req.body.dataS;
+	utilisateur = req.body.login;
 
 	const query = `SELECT IFNULL((SELECT id FROM comptes WHERE login = ? LIMIT 1), 'Non trouvé') AS resultat`;
 	//console.log("server2.js - utilisateur= ", utilisateur," + query=",query);
@@ -76,12 +74,11 @@ app.post('/submit_login', (req, res) => {
 		if (err) throw err;
 		//console.log("result=",result);
 		if (result[0].resultat==='Non trouvé') {
-			message=`Vous n'êtes pas autorisé à utiliser cette application.<br>Veuillez contacter un administrateur.`;
-			io.emit('console_message', message);
+			res.json({message:`Vous n'êtes pas autorisé à utiliser cette application.<br>Veuillez contacter un administrateur.`});
 		} else {
 			id_user=result[0].resultat;
 			//console.log("id_user=",id_user);
-			res.redirect("/actions");
+			res.json({ redirect: '/actions' });
 		}
 	});
 });
@@ -117,15 +114,11 @@ app.get('/getRelances_tab', (req, res) => {
 
 app.post('/submit_timestamp', (req, res) => {
 	const { action, id_dossier} = req.body;
-	message="";
 	
 	if(action === 'start') {
 		if(session_ouverte==='yes') { 
-			message="Une session est actuellement en cours pour le dossier id:" + dossier_courant + " : vous devez terminer cette session avant d'en entamer une autre.";
-			io.emit('console_message', message);
-			return; 
+			res.json({message:`Une session est actuellement en cours pour le dossier id:` + dossier_courant + ` : vous devez terminer cette session avant d'en entamer une autre.`});
 		}
-		io.emit('console_message', message + id_user);
 		const query_start = `INSERT INTO time_sheet (id_cpte,time_start,id_dossier) VALUES (?,NOW(),?)`;
 		db.query(query_start, [id_user, id_dossier], (err, result) => {
 			if (err) throw err;
@@ -134,26 +127,18 @@ app.post('/submit_timestamp', (req, res) => {
 		});
 	} else if(action === 'stop') {
 		if(session_ouverte==='no') { 
-			message="Aucune session actuellement en cours : vous devez ouvrir une session avant de vouloir la fermer. Non mais ALLO !, quoi.";
-			io.emit('console_message', message);
-			return; 
+			res.json({message:`Aucune session actuellement en cours : vous devez ouvrir une session avant de vouloir la fermer. Non mais ALLO !, quoi.`});
 		}
-		io.emit('console_message', message + id_user);
 		const query_stop = `update time_sheet set time_stop=NOW() where id_dossier=? and id_cpte=? and time_stop is NULL`;
 		db.query(query_stop,[id_dossier,id_user], (err, result) => {
 			if (err) throw err;
 			session_ouverte='no';
 			dossier_courant='';	
-			//console.log("query_stop=",query_stop);
-			//console.log("result=",result);
 		});
 		const query_diff = `update time_sheet SET duree = TIMEDIFF(time_stop, time_start) where id_dossier=? and id_cpte=? and duree is NULL`;
 		db.query(query_diff, [id_dossier,id_user],(err, result) => {
 			if (err) throw err;
-			//console.log("query_diff=",query_diff);
-			//console.log("result=",result);
 		});
-		
 	}
 });
 
@@ -167,7 +152,7 @@ app.get('/getDossiers', (req, res) => {
             options += `<option value="${row.id_dossier}">${row.nom}</option>`;
         });
         options += '</select>';
-
+		console.log("options=",options);
         res.send(options);
     });
 });
@@ -278,8 +263,7 @@ app.post('/dossier_creer', (req, res) => {
     let sql = `INSERT INTO dossiers (id_client,client,nom) VALUES (?,(SELECT client FROM clients WHERE id_client=?),?)`;
     db.query(sql,[id_client,id_client,dossier], (err, result) => {
         if (err) throw err;
-		message=`Nouveau dossier créé avec succès.`;
-		io.emit('console_message', message);
+		res.json({message:`Nouveau dossier créé avec succès.`});
     });
 });
 
@@ -301,9 +285,6 @@ app.post('/dossier_edit', (req, res) => {
 		result[0].new_date_livrable = new_date_livrable;
 		
 		//console.log("result=",result);
-		message=null;
-		io.emit('console_message', message);
-
 		res.json(result[0]); // Envoie le résultat de la requête SQL au client
     });
 });
@@ -328,8 +309,7 @@ app.post('/dossier_save', (req, res) => {
 		db.query(sql,[comment,montant_ht,nom, detail_ps,chemin_ps,chemin_livrable,id_dossier],(err, result, fields) => {
 			if (err) throw err;
 			//console.log("result=",result);
-			message="Dossier enregistré avec succès.";
-			io.emit('console_message', message);
+			res.json({message:`Dossier enregistré avec succès.`});
 		});
 	} else if(date_ps==='' && date_ok==='') {
 		//console.log("je passe ici 2");
@@ -337,8 +317,7 @@ app.post('/dossier_save', (req, res) => {
 		db.query(sql,[comment,montant_ht,nom, detail_ps,chemin_ps,chemin_livrable,date_livrable,id_dossier],(err, result, fields) => {
 			if (err) throw err;
 			//console.log("result=",result);
-			message="Dossier enregistré avec succès.";
-			io.emit('console_message', message);
+			res.json({message:`Dossier enregistré avec succès.`});
 		});
 	} else if(date_ps==='' && date_livrable==='') {
 		//console.log("je passe ici 3");
@@ -346,8 +325,7 @@ app.post('/dossier_save', (req, res) => {
 		db.query(sql,[comment,montant_ht,nom,detail_ps,chemin_ps,chemin_livrable,date_ok,id_dossier],(err, result, fields) => {
 			if (err) throw err;
 			//console.log("result=",result);
-			message="Dossier enregistré avec succès.";
-			io.emit('console_message', message);
+			res.json({message:`Dossier enregistré avec succès.`});
 		});
 	} else if(date_ps==='') {
 		//console.log("je passe ici 4");
@@ -355,8 +333,7 @@ app.post('/dossier_save', (req, res) => {
 		db.query(sql,[comment,montant_ht,nom,detail_ps,chemin_ps,chemin_livrable,date_ok,date_livrable,id_dossier],(err, result, fields) => {
 			if (err) throw err;
 			//console.log("result=",result);
-			message="Dossier enregistré avec succès.";
-			io.emit('console_message', message);
+			res.json({message:`Dossier enregistré avec succès.`});
 		});
 	} else if(date_ok==='' && date_livrable==='') {
 		//console.log("je passe ici 5");
@@ -364,8 +341,7 @@ app.post('/dossier_save', (req, res) => {
 		db.query(sql,[comment,montant_ht,nom, detail_ps,chemin_ps,chemin_livrable,date_ps,id_dossier],(err, result, fields) => {
 			if (err) throw err;
 			//console.log("result=",result);
-			message="Dossier enregistré avec succès.";
-			io.emit('console_message', message);
+			res.json({message:`Dossier enregistré avec succès.`});
 		});
 	} else if(date_ok==='') {
 		//console.log("je passe ici 6");
@@ -373,8 +349,7 @@ app.post('/dossier_save', (req, res) => {
 		db.query(sql,[comment,montant_ht,nom, detail_ps,chemin_ps,chemin_livrable,date_ps,date_livrable,id_dossier],(err, result, fields) => {
 			if (err) throw err;
 			//console.log("result=",result);
-			message="Dossier enregistré avec succès.";
-			io.emit('console_message', message);
+			res.json({message:`Dossier enregistré avec succès.`});
 		});
 	} else if(date_livrable==='') {
 		//console.log("je passe ici 7");
@@ -382,8 +357,7 @@ app.post('/dossier_save', (req, res) => {
 		db.query(sql,[comment,montant_ht,nom, detail_ps,chemin_ps,chemin_livrable,date_ps,date_ok,id_dossier],(err, result, fields) => {
 			if (err) throw err;
 			//console.log("result=",result);
-			message="Dossier enregistré avec succès.";
-			io.emit('console_message', message);
+			res.json({message:`Dossier enregistré avec succès.`});
 		});
 	} else {
 		//console.log("je passe ici 8");
@@ -391,8 +365,7 @@ app.post('/dossier_save', (req, res) => {
 		db.query(sql,[comment,montant_ht,nom, detail_ps,chemin_ps,chemin_livrable,date_ps,date_ok,date_livrable,id_dossier],(err, result, fields) => {
 			if (err) throw err;
 			//console.log("result=",result);
-			message=`Dossier enregistré avec succès.`;
-			io.emit('console_message', message);
+			res.json({message:`Dossier enregistré avec succès.`});
 		});
 	}
 	});
@@ -436,12 +409,11 @@ app.post('/client_creer', (req, res) => {
 	db.query(sql,[client_nom,forme_sociale,siret,siren,num_tva,contact,titre,adresse,pays,ue,f_adresse],(err, result, fields) => {
 		if (err) throw err;
 		//console.log("result=",result);
-		message=`Client ajouté avec succès.`;
-		io.emit('console_message', message);
+		res.json({message:`Client ajouté avec succès.`});
 	});
 });
 
-//------------------GESTION DE LA PAGE CLIENT_EDITER---------------------------------------------------
+//------------------GESTION DE LA PAGE CLIENT_EDIT---------------------------------------------------
 
 app.post('/client_editer', (req, res) => {
     let id_client = req.body.id_client;
@@ -495,10 +467,6 @@ app.post('/client_editer', (req, res) => {
 		result[0].ue_oui=ue_oui;
 		result[0].ue_non=ue_non;
 		
-//		console.log("result=",result);
-		message=null;
-		io.emit('console_message', message);
-
 		res.json(result[0]); // Envoie le résultat de la requête SQL au client
     });
 });
@@ -539,9 +507,8 @@ app.post('/client_update', (req, res) => {
     let sql=`UPDATE clients SET forme_sociale=?,siret=?,siren=?,tva_ue=?,contact=?,titre=?,adresse=?,pays=?,ue=?,adresse_facturation=? WHERE id_client=?`;
 	db.query(sql,[forme_sociale,siret,siren,num_tva,contact,titre,adresse,pays,ue,f_adresse,id_client],(err, result, fields) => {
 		if (err) throw err;
-//		console.log("result=",result);
-		message=`Client mis à jour avec succès.`;
-		io.emit('console_message', message);
+		console.log("result=",result);
+		res.json({message:`Client mis à jour avec succès.`});
 	});
 });
 
@@ -554,8 +521,6 @@ app.post('/prepa_fact', (req, res) => {
     //console.log("sql=",sql);
 	db.query(sql,[id_dossier,id_dossier,id_dossier], (err, result) => {
         if (err) throw err;
-		message=null;
-		io.emit('console_message', message);
 		//console.log("result=",result);
 		res.json(result[0]); // Envoie le résultat de la requête SQL au client
     });
@@ -577,15 +542,13 @@ app.post('/facture_create', (req, res) => {
 		var sql = `INSERT INTO factures (id_dossier,num_fact,tva,date_fact,annee_fact,ref_fact,montant_ttc,des) VALUES (?,?,?,?,?,?,?,?)`;
 		db.query(sql,[id_dossier,num_fact,tva,date_fact,annee_fact,ref_fact,montant_ttc,des], (err, result,fields) => {
 			if (err) throw err;
-			message=`Facture ${num_fact} initialisée avec succès`;
-			io.emit('console_message', message);
+			res.json({message:`Facture ${num_fact} initialisée avec succès`});
 		});
 	}else {
 		var sql = `INSERT INTO factures (id_dossier,num_fact,tva,date_fact,annee_fact,ref_fact,montant_ttc,des,date_des_limite) VALUES (?,?,?,?,?,?,?,?,?)`;
 		db.query(sql,[id_dossier,num_fact,tva,date_fact,annee_fact,ref_fact,montant_ttc,des,date_des_limite], (err, result,fields) => {
 			if (err) throw err;
-			message=`Facture ${num_fact} initialisée avec succès`;
-			io.emit('console_message', message);
+			res.json({message:`Facture ${num_fact} initialisée avec succès`});
 		});
 	}
 });
@@ -609,8 +572,7 @@ app.post('/update_detail_ps', (req, res) => {
 	db.query(sql,[detail_ps,comment,id_dossier], (err, result) => {
         if (err) throw err;		
 		//console.log("result=",result);
-		message=`Dossier mis à jour avec succès.`;
-		io.emit('console_message', message);
+		res.json({message:`Dossier mis à jour avec succès.`});
     });
 });
 
@@ -636,8 +598,6 @@ app.post('/create_print_view', (req, res) => {
         if (err) throw err;
 		
 		//console.log("result=",result);
-		message=``;
-		io.emit('console_message', message);
 
 		res.json(result[0]); // Envoie le résultat de la requête SQL au client
     });

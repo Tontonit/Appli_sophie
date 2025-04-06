@@ -139,9 +139,12 @@
 					 
                 })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                //console.log(data);
+				if (data.message) {
+					// Afficher le message dans la page actuelle
+					document.getElementById('message_html').innerHTML = data.message;
+				}
             })
             .catch(error => console.error('Error:', error));
         }
@@ -199,17 +202,6 @@
 			.catch(error => console.error('Error fetching options:', error));
 		}
 
-   </script>
-   	<script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-
-        socket.on('console_message', (message) => {
-            const messageContainer = document.getElementById('message_html');
-			messageContainer.innerHTML = message;
-        });
-    </script>
-	<script>
 		// Fonction pour obtenir la condition depuis le serveur Node.js
 		async function checkCondition() {
 			try {

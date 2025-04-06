@@ -84,7 +84,7 @@
 						</div>
 					</div>
 					<div class="container">
-						<span id="message_html"></span>
+						<div id="message_html"></div>
 						<button id="update" type="submit" class="button-action">Enregistrer</button>
 					</div>
 				</div>
@@ -108,7 +108,7 @@
 		document.getElementById('dropdown-container_clients').addEventListener('change', () => {
 			event.preventDefault();
 			selected_cli = document.querySelector('#dropdown-container_clients select').value;
-			console.log("selected_cli=",selected_cli);
+			//console.log("selected_cli=",selected_cli);
             fetch('/client_editer', {
                 method: 'POST',
 				headers: {
@@ -120,7 +120,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                //console.log(data);
 				const {id_client,siret,siren,client,forme_sociale,tva_ue,contact,titre,c_adr1,c_adr2,c_adr3,c_cp,c_ville,f_adr1,f_adr2,f_adr3,f_cp,f_ville,pays,ue_oui,ue_non,ue_na}=data;
 				
 				document.getElementById('siret').value=siret;
@@ -221,25 +221,16 @@
 					ue_na: ue_na
                 })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                console.log(data);
+				if (data.message) {
+					// Afficher le message dans la page actuelle
+					document.getElementById('message_html').innerHTML = data.message;
+				}
             })
             .catch(error => console.error('Error:', error));
         });
-
-		
-   </script>
-	<script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-
-        socket.on('console_message', (message) => {
-            const messageContainer = document.getElementById('message_html');
-			messageContainer.innerHTML = message;
-        });
     </script>
-
 </body>
 </html>
 

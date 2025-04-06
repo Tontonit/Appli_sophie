@@ -130,7 +130,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                //console.log(data);
 				const {nom,detail_ps,montant_ht,ue,pays,comment}=data;
 
 				document.getElementById('comment').value=comment;
@@ -225,7 +225,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+				if (data.message) {
+					// Afficher le message dans la page actuelle
+					document.getElementById('message_html').innerHTML = data.message;
+				}
 			})
             .catch(error => console.error('Error:', error));
         });
@@ -248,7 +251,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+				if (data.message) {
+					// Afficher le message dans la page actuelle
+					document.getElementById('message_html').innerHTML = data.message;
+				}
 			})
             .catch(error => console.error('Error:', error));
         });
@@ -269,24 +275,11 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                //console.log(data);
 			})
             .catch(error => console.error('Error:', error));
-			
-			
-        });
-		
-   </script>
-	<script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-
-        socket.on('console_message', (message) => {
-            const messageContainer = document.getElementById('message_html');
-			messageContainer.innerHTML = message;
         });
     </script>
-
 </body>
 </html>
 

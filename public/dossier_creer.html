@@ -47,7 +47,7 @@
 		
 		document.getElementById('dropdown-container_clients').addEventListener('change', function() {
 			id_client =document.querySelector('#dropdown-container_clients select').value;
-			console.log("id_client=",id_client);
+			//console.log("id_client=",id_client);
 			fetch('/getDossiers_client', {
                 method: 'POST',
 				headers: {
@@ -70,7 +70,7 @@
 			const dossier=document.getElementById('zoneSaisie').value;
 			
  			
-			console.log("HTML dossier=",dossier," + client=",id_client);
+			//console.log("HTML dossier=",dossier," + client=",id_client);
             fetch('/dossier_creer', {
                 method: 'POST',
 				headers: {
@@ -81,25 +81,16 @@
                     id_client: id_client,
                 })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                console.log("data=",data);
+				if (data.message) {
+					// Afficher le message dans la page actuelle
+					document.getElementById('message_html').innerHTML = data.message;
+				}
             })
             .catch(error => console.error('Error:', error));
         });
-
-		
-   </script>
-	<script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-
-        socket.on('console_message', (message) => {
-            const messageContainer = document.getElementById('message_html');
-			messageContainer.innerHTML = message;
-        });
-    </script>
-
+	</script>
 </body>
 </html>
 

@@ -11,22 +11,35 @@
   	<img src="images/logo_complet_SD_2.jpg" alt="Logo" width="300" height="300">
 	<div class="container-index">
 		<b>Entrez votre @email</b>
-			<form id="form" method="POST" action="/submit_login">
-				<input type="text" id="zoneSaisie" name="dataS" class="input-field" placeholder="je.travailler@pour.cabinet" required>
-				<button id="monBouton" type="submit" class="button-action">Soumettre</button>
-			</form>
+			<input type="text" id="zoneSaisie" name="dataS" class="input-field" placeholder="je.travailler@pour.cabinet" required>
+			<button id="monBouton" type="submit" class="button-action">Soumettre</button>
 		<div id="message_html"></div>
 	</div>
 		
-	<script src="/socket.io/socket.io.js"></script>
     <script>
-        const socket = io();
-
-        socket.on('console_message', (message) => {
-            const messageContainer = document.getElementById('message_html');
-			messageContainer.innerHTML = message;
-        });
-    </script>
-
+		document.getElementById('monBouton').addEventListener('click', () => { 
+			fetch('/submit_login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    login: document.getElementById('zoneSaisie').value,
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+				if (data.redirect) {
+					console.log("data=",data);
+					// Redirection vers la page indiquée par le serveur
+					window.location.href = data.redirect;
+				} else {
+					// Afficher le message dans la page actuelle
+					document.getElementById('message_html').innerHTML = data.message;
+				}
+			})
+            .catch(error => console.error('Error:', error));
+ 		});
+	</script>
 </body>
 </html>
