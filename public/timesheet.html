@@ -18,13 +18,13 @@
     </div>
 	<div class="container-wrapper">
 		<div class="container">
-			<form id="form" method="POST" action="/submit_timestamp">
+			<!form id="form" method="POST" action="/submit_timestamp">
 				<b>Dossiers en cours</b>
 				<div id="dropdown-containers"></div>
 				<br /><br /><br /><br />
 				<button id="startwork" type="submit" class="button-action" >Débuter une session de travail</button>
 				<button id="stopwork" type="button" class="button-action" >Terminer une session de travail</button>
-			</form>
+			<!/form>
 			<div id="message_html"></div>
 		</div>
 		<div class="container">
@@ -41,13 +41,61 @@
 			<div class="en_ligne">
 				<div class="container">
 					<br /><b>Détail temps passé</b>
-					<div id="time" class="table-container">
-					</div>
+					<table id="time" >
+						<thead>
+							<tr>
+								<th>Utilisateur</th>
+								<th>Jour</th>
+								<th>Durée</th>
+							</tr>
+						</thead>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
 				</div>
 				<div class="container">
 					<br /><b>Temps total</b>
-					<div id="total_time" class="table-container">
-					</div>
+					<table id="total_time" >
+						<thead>
+							<tr>
+								<th>Utilisateur</th>
+								<th>Durée</th>
+								<th>Tx/h</th>
+								<th>Honoraires</th>
+							</tr>
+						</thead>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -152,7 +200,7 @@
 		}
 
    </script>
-   	<script src="/socket.io/socket.io.js"></script>
+   	<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
     <script>
         const socket = io();
 

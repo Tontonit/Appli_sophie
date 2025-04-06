@@ -1,0 +1,19 @@
+<table>
+	<thead>
+		<tr>
+			<th>Client</th>
+			<th>Facture</th>
+			<th>Date facturation</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% data.forEach(row => { %>
+			<tr>
+				<td><%= row.client %></td>
+				<td><%= row.num_fact %></td>
+				<td><%= row.date_f %></td>
+			</tr>
+		<% }); %>
+	</tbody>
+</table>
+

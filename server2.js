@@ -19,7 +19,6 @@ var session_ouverte='no'
 // Configurer EJS comme moteur de template
 app.set('view engine', 'ejs');
 
-
 //------------------------------------------------------------------------------------------------
 
 // Démarrer le serveur web
@@ -42,21 +41,6 @@ app.get('/', (req, res) => {
 app.get('/actions', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'actions.html'));
 });
-
-//app.get('/factures', (req, res) => {update_detail_ps
-//    res.sendFile(path.join(__dirname, 'public', 'factures.html'));
-//});
-
-//------------------------------------------------------------------------------------------------
-
-// Configuration de la connexion MySQL
-//const db = mysql.createConnection({
-//    host: process.env.DB_HOST,
-//    user: process.env.DB_USER,
-//    password: process.env.DB_PASSWORD,
-//    database: process.env.DB_NAME,
-//	port: port_bdd
-//});
 
 const db = mysql.createConnection({
     host: 'mysql-sdo.alwaysdata.net',
@@ -83,11 +67,10 @@ db.connect((err) => {
     console.log('Connexion à la base de données réussie en tant que id ', db.threadId);
 });
 
-//------------------GESTION DE LA PAGE ACCUEIL--------------------------------------------------
-
 // Utiliser body-parser pour analyser les corps de requête en JSON
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//------------------GESTION DE LA PAGE ACCUEIL--------------------------------------------------
 
 app.post('/submit_login', (req, res) => {
 	utilisateur = req.body.dataS;
@@ -107,6 +90,33 @@ app.post('/submit_login', (req, res) => {
 		}
 	});
 });
+
+//------------------GESTION DE LA PAGE ACTIONS--------------------------------------------------
+
+app.get('/getDossiers_tab', (req, res) => {
+    const sql = `SELECT clients.client,dossiers.nom FROM clients,dossiers WHERE statut="en cours" and clients.id_client=dossiers.id_client`;
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+		res.render('dossiers_en_cours', { data: results });
+	});
+});
+
+app.get('/getDES_tab', (req, res) => {
+    const sql = `SELECT clients.client,factures.num_fact,DATE_FORMAT(factures.date_des_limite, '%d-%m-%Y') as date_limite  FROM clients,dossiers,factures WHERE des="à faire" and dossiers.id_dossier=factures.id_dossier and clients.id_client=dossiers.id_client and clients.id_client=dossiers.id_client`;
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+		res.render('des', { data: results });
+	});
+});
+
+app.get('/getRelances_tab', (req, res) => {
+    const sql = `SELECT clients.client,factures.num_fact,DATE_FORMAT(factures.date_fact, '%d-%m-%Y') as date_f  FROM clients,dossiers,factures WHERE factures.num_fact is not NULL and factures.date_regl is NULL and dossiers.id_dossier=factures.id_dossier and clients.id_client=dossiers.id_client and clients.id_client=dossiers.id_client and factures.date_fact < DATE_SUB(CURDATE(), INTERVAL 90 DAY)`;
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+		res.render('relances', { data: results });
+	});
+});
+
 
 //------------------GESTION DE LA PAGE TIMESHEET--------------------------------------------------
 
@@ -197,9 +207,9 @@ app.post('/getTime', (req, res) => {
 	var sql ='';
 	//console.log("id_user=",id_user," + id_dossier=",id_dossier);
 	if(id_user==='Tous') {
-		sql = `SELECT comptes.trigram,DATE_FORMAT(time_sheet.time_start, '%m-%Y') as jour,time_sheet.duree FROM comptes,dossiers,time_sheet where dossiers.id_dossier=time_sheet.id_dossier and time_sheet.id_cpte=comptes.id and time_sheet.id_dossier='${id_dossier}'`;
+		sql = `SELECT comptes.trigram,DATE_FORMAT(time_sheet.time_start, '%d-%m-%Y') as jour,time_sheet.duree FROM comptes,dossiers,time_sheet where dossiers.id_dossier=time_sheet.id_dossier and time_sheet.id_cpte=comptes.id and time_sheet.id_dossier='${id_dossier}'`;
     } else {
-		sql = `SELECT comptes.trigram,DATE_FORMAT(time_sheet.time_start, '%m-%Y') as jour,time_sheet.duree FROM comptes,dossiers,time_sheet where dossiers.id_dossier=time_sheet.id_dossier and time_sheet.id_cpte=comptes.id and time_sheet.id_dossier='${id_dossier}' and time_sheet.id_cpte='${id_user}' ORDER BY jour`;
+		sql = `SELECT comptes.trigram,DATE_FORMAT(time_sheet.time_start, '%d-%m-%Y') as jour,time_sheet.duree FROM comptes,dossiers,time_sheet where dossiers.id_dossier=time_sheet.id_dossier and time_sheet.id_cpte=comptes.id and time_sheet.id_dossier='${id_dossier}' and time_sheet.id_cpte='${id_user}' ORDER BY jour`;
 	}
 	//console.log("sql=",sql);
 	db.query(sql, (err, results) => {
@@ -212,7 +222,7 @@ app.post('/getTotalTime', (req, res) => {
     let id_user = req.body.id_user;
 	let id_dossier = req.body.id_dossier;
 	var sql ='';
-	console.log("id_user=",id_user," + id_dossier=",id_dossier);
+	//console.log("id_user=",id_user," + id_dossier=",id_dossier);
 	if(id_user==='Tous') {
 		
 		sql = `SELECT comptes.trigram,SEC_TO_TIME(CEIL(SUM(TIME_TO_SEC(time_sheet.duree)) / 1800) * 1800) AS duree_totale_arrondie,comptes.tx_horaire,(comptes.tx_horaire * CEIL(SUM(TIME_TO_SEC(time_sheet.duree)) / 1800) * 1800 / 3600) AS montant_total FROM comptes,dossiers,time_sheet where dossiers.id_dossier=time_sheet.id_dossier and time_sheet.id_cpte=comptes.id and time_sheet.id_dossier='${id_dossier}' GROUP BY comptes.trigram, comptes.tx_horaire`;
@@ -224,7 +234,7 @@ app.post('/getTotalTime', (req, res) => {
 
 	db.query(sql, (err, result) => {
         if (err) throw err;
-		console.log("id_user=",id_user," + id_dossier=",id_dossier," + result=",result);
+		//console.log("id_user=",id_user," + id_dossier=",id_dossier," + result=",result);
         res.render('total_tps', { data: result });
     });
 });

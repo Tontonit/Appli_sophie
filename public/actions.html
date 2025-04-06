@@ -9,6 +9,81 @@
 </head>
 <body>
 	<img src="logo_complet_SD_2.jpg" alt="Logo" width="300" height="300">
+	<div class="container-action1">
+		<b><u>DES à faire :</u></b>
+		<table id="des" >
+			<thead>
+				<tr>
+					<th>Client</th>
+					<th>Facture</th>
+					<th>Date limite</th>
+				</tr>
+			</thead>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<br />
+		<b><u>Dossiers en cours :</u></b>
+		<table id="dossiers" >
+			<thead>
+				<tr>
+					<th>Client</th>
+					<th>Dossier</th>
+				</tr>
+			</thead>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<br />
+		<b><u>Factures à relancer :</u></b>
+		<table id="relances" >
+			<thead>
+				<tr>
+					<th>Client</th>
+					<th>Facture</th>
+					<th>Date facturation</th>
+				</tr>
+			</thead>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
 	<div class="container-action">
 		<a href="dossier_creer.html"><button class="button-action">Créer un dossier</button></a>
 		<a href="dossier_edit.html"><button class="button-action">Modifier un dossier en cours</button></a>
@@ -19,5 +94,29 @@
 		<!-- <a href="Factures_edit.html"><button class="button-action">MàJ factures</button></a> 
 		<a href="Dashboard.html"><button class="button-action">Dashboard</button></a> -->
 	</div>
+
+	<script>
+		fetch('/getDossiers_tab')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('dossiers').innerHTML = data;
+            })
+            .catch(error => console.error('Error fetching options:', error));
+
+		fetch('/getDES_tab')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('des').innerHTML = data;
+            })
+            .catch(error => console.error('Error fetching options:', error));
+
+		fetch('/getRelances_tab')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('relances').innerHTML = data;
+            })
+            .catch(error => console.error('Error fetching options:', error));
+	
+	</script>
 </body>
 </html>

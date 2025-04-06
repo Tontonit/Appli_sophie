@@ -48,7 +48,7 @@
 			<textarea type="text" id="detail_ps" class="input-field" style="font-family: Calibri;width: 95%;height: 80%"></textarea>
 			<br /><b>Commentaires</b>
 			<textarea type="text" id="comment" class="input-field" style="font-family: Calibri;width: 95%;height: 80%"></textarea>
-			<button id="update_detail_ps" class="button" >Mettre à jour</button>
+			<button id="update_detail_ps" class="button-action" >Mettre à jour</button>
 		</div>
 		<div class="container">
 			<div class="en_ligne">
@@ -68,8 +68,8 @@
 			<br />
 			<b>Chemin Facture</b>
 			<input type="text" id="livrable" class="input-field" style="width: 95%"></input> 
-			<button id="init_fact" type="submit" class="button" >Initier facture</button>
-			<button id="print_fact" type="submit" class="button" >Imprimer la facture</button>
+			<button id="init_fact" type="submit" class="button-action" >Initier facture</button>
+			<button id="print_fact" type="submit" class="button-action" >Imprimer la facture</button>
 			<div id="message_html"></div>
 		</div>
 	</div>
@@ -277,7 +277,7 @@
         });
 		
    </script>
-	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
     <script>
         const socket = io();
 

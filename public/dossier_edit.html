@@ -33,34 +33,31 @@
 			<textarea type="text" id="detail_ps" class="input-field" style="font-family: Calibri;width: 95%;height: 80%"></textarea>
 		</div>
 		<div class="container">
-			<form id="form" method="POST" action="/dossier_save">
-				<div class="en_ligne">
-					<p>
-						<b>Date d'envoi PS</b><br />
-						<input type="date" id="send_ps" class="date-field">
-						<br /><br />
-						<b>Date acceptation PS</b><br />
-						<input type="date" id="ok_ps" class="date-field"></input>
-						<br /><br />
-						<b>Date livrable</b><br />
-						<input type="date" id="send_livrable" class="date-field">
-					</p>
-					<p>
-						<b>Montant HT</b><br />
-						<input type="text" id="montant_ht" class="input-field" style="width: 100px"></input>
-						<br /><br />
-						<b>Chemin PS</b><br />
-						<input type="text" id="ps" class="input-field" style="width: 300px"></input>
-						<br /><br />
-						<b>Chemin livrable</b><br />
-						<input type="text" id="livrable" class="input-field" style="width: 300px"></input> 
-					</p>
+			<div class="en_ligne">
+				<div class="container">
+					<b>Date d'envoi PS</b>
+					<input type="date" id="send_ps" class="date-field">
+					<br />
+					<b>Date acceptation PS</b>
+					<input type="date" id="ok_ps" class="date-field"></input>
+					<br />
+					<b>Date livrable</b>
+					<input type="date" id="send_livrable" class="date-field">					
 				</div>
-				<div id="message_html"></div>
-				<button id="save" type="submit" class="button" >Enregistrer</button>
-			</form>
-		</div>
+				<div class="container">
+					<b>Montant HT</b>
+					<input type="text" id="montant_ht" class="input-field" style="width: 100px"></input>
+					<br />
+					<b>Chemin PS</b>
+					<input type="text" id="ps" class="input-field" style="width: 300px"></input>
+					<br />
+					<b>Chemin livrable</b>
+					<input type="text" id="livrable" class="input-field" style="width: 300px"></input>
+				</div>
+			</div>
 			<div id="message_html"></div>
+			<button id="save" type="submit" class="button-action" >Enregistrer</button>
+		</div>
 	</div>
 	<a href="Actions.html"><button id="myExit" type="button" class="exit_button">Revenir aux actions</button></a>
 	
@@ -144,7 +141,7 @@
 
 		
    </script>
-	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
     <script>
         const socket = io();
 

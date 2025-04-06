@@ -1,0 +1,17 @@
+<table>
+	<thead>
+		<tr>
+			<th>Client</th>
+			<th>Dossier</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% data.forEach(row => { %>
+			<tr>
+				<td><%= row.client %></td>
+				<td><%= row.nom %></td>
+			</tr>
+		<% }); %>
+	</tbody>
+</table>
+

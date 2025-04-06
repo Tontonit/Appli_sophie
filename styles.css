@@ -1,5 +1,5 @@
 body {
-	background-color: #ccffcc; /* Vert clair */
+	background-color: #CCCCFF; /*bleu clair*//*#ccffcc; /* Vert clair */
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -27,31 +27,12 @@ img {
 	flex-direction: row; /* Placer les conteneurs côte à côte */
 	width: 100%;
 	text-align: center;
-	background-color: #45a049; /*#0E0075; /*bleu Sophie proportionnel*//*#45a049;/* Vert */
+	background-color: #0E0075; /*bleu Sophie proportionnel*//*#45a049;/* Vert */
 	font-size: 14px;
 	border-radius: 20px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	margin: 10px;
 	gap: 10px;  /* Ajout d'un espace entre les éléments */
-}
-.button {
-	text-decoration: none; /* Supprime la ligne soulignée */
-	display: inline-block;  /* Rend le lien en bloc */
-	width: 200px;
-	height: 50px;
-	margin: 10px;
-	font-size: 16px;
-	line-height: 1%; /* Hauteur de ligne égale à la hauteur du bouton pour centrer le texte verticalement */
-	text-align: center; /* Centrage du texte horizontalement */
-	padding: 20px 10px;
-	margin-left: 10%;
-	margin-top: 12%;
-	color: white;
-	background-color: #4CAF50; /*#15007c; /*bleu foncé Sophie*//*#4CAF50; /* Vert */
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	transition: background-color 0.3s;
 }
 .button-action {
 	text-decoration: none; /* Supprime la ligne soulignée */
@@ -61,7 +42,7 @@ img {
 	margin: 10px;
 	font-size: 16px;
 	color: white;
-	background-color: #4CAF50; /*#15007c; /*bleu foncé Sophie*//*#4CAF50; /* Vert */
+	background-color: #15007c; /*bleu foncé Sophie*//*#4CAF50; /* Vert */
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
@@ -76,7 +57,7 @@ img {
 	top: 20px;
 	right: 20px;
 	color: white;
-	background-color: #4CAF50; /*#15007c; /*bleu foncé Sophie*//*#4CAF50; /* Vert */	
+	background-color: #15007c; /*bleu foncé Sophie*//*#4CAF50; /* Vert */	
 	padding: 15px 16px;
 	text-align: center;
 	font-size: 14px;
@@ -117,6 +98,23 @@ img {
 	/*pas partout*//*parfois margin-left: 60px;*/
 	/*pas partout*//*parfois gap: 40px;  /* Ajout d'un espace entre les éléments */
 }
+.container-action1 {
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width:350px;
+	text-align: left;
+	background-color: #ffffff;
+	padding: 10px;
+	border-radius: 20px;
+	/*display: grid;
+	grid-template-columns: 1fr 1fr;*/
+	gap: 10px;
+	margin-top: 50px;
+}
 .container-action {
 	text-align: center;
 	display: grid;
@@ -149,3 +147,15 @@ img {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 }
+table {
+	border-collapse: collapse; /* Fusionne les bordures pour un aspect propre */
+	width: 100%;
+	margin: auto;
+}
+td, th {
+	border: 1px solid black; /* Ajoute une bordure à chaque cellule */
+	height: 20px;
+	width: 400px;
+	text-align: left;	
+}
+ 
